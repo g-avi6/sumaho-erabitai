@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>スマホで選び隊</title>
+
+  <style>
+    :root {
+      --bg: #fffaf2;
+      --card: #ffffff;
+      --main: #0d3d88;
+      --sub: #e5392d;
+      --accent: #ffd43b;
+      --soft: #eef5ff;
+      --cream: #fffdf8;
+      --line: #c9d8ef;
+      --text: #13325f;
+      --muted: #5a6f8f;
+      --shadow: rgba(13, 61, 136, 0.10);
+      --shadow-strong: rgba(13, 61, 136, 0.20);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 212, 59, 0.20), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(229, 57, 45, 0.12), transparent 26%),
+        linear-gradient(180deg, #fffdf8 0%, #fffaf2 100%);
+      padding-top: 58px;
+    }
+
+    .status {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1200;
+      padding: 12px 16px;
+      color: var(--main);
+      background: rgba(255, 255, 255, 0.90);
+      border-bottom: 2px solid rgba(13, 61, 136, 0.12);
+      box-shadow: 0 4px 16px rgba(13, 61, 136, 0.06);
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      backdrop-filter: blur(14px);
+    }
+
+    header {
+      max-width: 1000px;
+      margin: 18px auto 0;
+      padding: 20px 22px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 4px solid var(--main);
+      color: var(--text);
+      text-align: center;
+      box-shadow: 0 14px 34px rgba(13, 61, 136, 0.12);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+      font-weight: 900;
+      color: var(--sub);
+      text-shadow: 2px 2px 0 #ffffff, 0 0 8px rgba(255,255,255,0.7);
+    }
+
+    header p {
+      margin: 10px auto 0;
+      max-width: 620px;
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(90deg, #0d3d88 0%, #2459ad 100%);
+      padding: 8px 14px;
+      border-radius: 999px;
+      box-shadow: 0 6px 14px rgba(13, 61, 136, 0.14);
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 24px;
+      padding-bottom: 104px;
+    }
+
+    section {
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(201, 216, 239, 0.95);
+      border-radius: 30px;
+      padding: 26px;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 32px rgba(13, 61, 136, 0.07);
+      backdrop-filter: blur(10px);
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      color: var(--main);
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      font-weight: 800;
+    }
+
+    h3 {
+      color: var(--main);
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: 0.03em;
+    }
+
+    .step-note {
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .budget-slider-area {
+      margin-top: 18px;
+      padding: 24px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #ffffff, #eef5ff);
+      border: 1px solid var(--line);
+    }
+
+    .budget-display {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--main);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .budget-display span {
+      font-size: 50px;
+      letter-spacing: 0.03em;
+      color: var(--sub);
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .range-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    button {
+      font-family: inherit;
+    }
+
+    .primary-button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 999px;
+      background: var(--sub);
+      color: white;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 10px 22px rgba(229, 57, 45, 0.20);
+    }
+
+    .primary-button:hover {
+      background: #cf2f25;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px rgba(229, 57, 45, 0.24);
+    }
+
+    #productSelectSection {
+      display: block;
+    }
+
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 6px;
+      background: #eef5ff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      margin: 18px 0 24px;
+    }
+
+    .mode-buttons button {
+      padding: 13px 14px;
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--main);
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .mode-buttons button.active {
+      background: var(--main);
+      color: white;
+      box-shadow: 0 7px 18px rgba(13, 61, 136, 0.28);
+    }
+
+    .mode-area {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .mode-area.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .recommend-buttons,
+    .category-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0 20px;
+    }
+
+    .recommend-buttons button,
+    .category-buttons button {
+      padding: 10px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--main);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .recommend-buttons button:hover,
+    .category-buttons button:hover {
+      background: #f4f8ff;
+      border-color: var(--main);
+    }
+
+    .product-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      position: relative;
+      min-height: 185px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.98);
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(13, 61, 136, 0.06);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      overflow: hidden;
+    }
+
+    .product-card::before {
+      content: "";
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: rgba(255, 212, 59, 0.18);
+      z-index: 0;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--main);
+      box-shadow: 0 14px 30px rgba(13, 61, 136, 0.12);
+    }
+
+    .product-card.selected {
+      border: 2px solid var(--sub);
+      background: #fffdf8;
+      box-shadow: 0 16px 36px rgba(229, 57, 45, 0.18);
+    }
+
+    .product-card.popular {
+      background: linear-gradient(180deg, #ffffff, #fff8df);
+    }
+
+    .card-main {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .emoji {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+
+    .product-card h3 {
+      margin: 6px 0;
+      font-size: 18px;
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .category-label {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--main);
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #d8e4f6;
+    }
+
+    .price {
+      margin-top: 10px;
+      color: var(--sub);
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .selected-detail {
+      position: relative;
+      z-index: 1;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--line);
+      animation: fadeIn 0.2s ease;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 6px 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .detail-row strong {
+      color: var(--main);
+    }
+
+    .after-budget {
+      color: var(--sub);
+      font-weight: 800;
+    }
+
+    .add-button {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--main);
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.15s ease;
+      box-shadow: 0 8px 18px rgba(255, 212, 59, 0.28);
+    }
+
+    .add-button:hover {
+      background: #f7ca1a;
+    }
+
+    .cart-button {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      background: var(--main);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 72px;
+      height: 72px;
+      font-size: 30px;
+      box-shadow: 0 12px 30px rgba(13, 61, 136, 0.28);
+      cursor: pointer;
+      z-index: 999;
+      transition: 0.15s ease;
+    }
+
+    .cart-button:hover {
+      background: #0a3170;
+      transform: translateY(-1px);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: var(--sub);
+      color: white;
+      border-radius: 50%;
+      width: 27px;
+      height: 27px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 27px;
+      border: 2px solid white;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 110px;
+      transform: translateX(-50%);
+      background: var(--main);
+      color: white;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+      box-shadow: 0 10px 26px rgba(13, 61, 136, 0.26);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    #cartPage {
+      display: none;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .cart-item button {
+      margin-left: 8px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--main);
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .cart-item button:hover {
+      background: #dfeaff;
+    }
+
+    .total {
+      margin-top: 18px;
+      text-align: right;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--main);
+    }
+
+    .warning {
+      text-align: right;
+      margin-top: 8px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    .complete-message {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      font-weight: 800;
+      text-align: center;
+      color: var(--main);
+    }
+
+    .back-button {
+      margin-top: 18px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 999px;
+      background: var(--sub);
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .back-button:hover {
+      background: #cf2f25;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding-top: 64px;
+      }
+
+      header {
+        max-width: calc(100% - 24px);
+        margin: 12px 12px 0;
+        border-radius: 22px;
+        padding: 18px 14px;
+      }
+
+      header h1 {
+        font-size: 25px;
+      }
+
+      header p {
+        font-size: 13px;
+        padding: 8px 10px;
+        margin-top: 8px;
+      }
+
+      main {
+        padding: 14px;
+        padding-bottom: 90px;
+      }
+
+      section {
+        padding: 18px;
+        border-radius: 26px;
+      }
+
+      .status {
+        font-size: 13px;
+        padding: 10px 8px;
+      }
+
+      .mode-buttons {
+        grid-template-columns: 1fr;
+        border-radius: 24px;
+      }
+
+      .product-list {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-button {
+        width: 62px;
+        height: 62px;
+        font-size: 26px;
+      }
+
+      .toast {
+        width: 84%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="status" id="budgetStatus">まだ予算が設定されていません</div>
+
+  <header>
+    <h1>スマホで選び隊</h1>
+    <p>お財布にも時間にもやさしい、生協ショッピングサポート</p>
+  </header>
+
+  <main id="mainPage">
+    <section>
+      <h2>今日の予算を決める</h2>
+
+      <div class="budget-slider-area">
+        <div class="budget-display">
+          <span id="budgetPreview">700</span>円
+        </div>
+
+        <input
+          type="range"
+          id="budgetSlider"
+          min="300"
+          max="1000"
+          step="10"
+          value="700"
+          oninput="updateBudgetPreview()"
+        >
+
+        <div class="range-labels">
+          <span>300円</span>
+          <span>1000円</span>
+        </div>
+
+        <button class="primary-button" onclick="setSliderBudget()">この予算に決定</button>
+      </div>
+    </section>
+
+    <section id="productSelectSection">
+      <h2>商品を選ぶ</h2>
+
+      <div class="mode-buttons">
+        <button id="recommendModeButton" onclick="showMode('recommend')">おすすめ</button>
+        <button id="categoryModeButton" onclick="showMode('category')">カテゴリー</button>
+        <button id="popularModeButton" onclick="showMode('popular')">人気商品</button>
+      </div>
+
+      <div id="recommendMode" class="mode-area">
+        <h3>おすすめ商品</h3>
+
+        <div class="recommend-buttons">
+          <button onclick="showRecommendations(1)">＋1品でおすすめ</button>
+          <button onclick="showRecommendations(2)">＋2品でおすすめ</button>
+        </div>
+
+        <div class="product-list" id="recommendProducts"></div>
+      </div>
+
+      <div id="categoryMode" class="mode-area">
+        <h3>カテゴリーから選ぶ</h3>
+
+        <div class="category-buttons">
+          <button onclick="showCategory('all')">すべて</button>
+          <button onclick="showCategory('ごはん')">ごはん</button>
+          <button onclick="showCategory('パン')">パン</button>
+          <button onclick="showCategory('飲み物')">飲み物</button>
+          <button onclick="showCategory('お菓子')">お菓子</button>
+          <button onclick="showCategory('軽食')">軽食</button>
+        </div>
+
+        <div class="product-list" id="categoryProducts"></div>
+      </div>
+
+      <div id="popularMode" class="mode-area">
+        <h3>今日の人気商品</h3>
+
+        <div class="product-list" id="popularProducts"></div>
+      </div>
+    </section>
+  </main>
+
+  <main id="cartPage">
+    <section>
+      <h2>買い物かごの確認</h2>
+      <p class="step-note">
+        選んだ商品を確認して、実際に生協で迷わず購入できます。
+      </p>
+
+      <div id="cartItems"></div>
+
+      <div class="total" id="totalPrice"></div>
+      <div class="warning" id="budgetWarning"></div>
+
+      <div class="complete-message">
+        この画面を見ながら、生協で商品を探して購入しましょう。
+      </div>
+
+      <button class="back-button" onclick="showMainPage()">商品選択に戻る</button>
+    </section>
+  </main>
+
+  <button class="cart-button" onclick="showCartPage()">
+    🛒
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const products = [
+      { id: 1, name: "おにぎり", price: 130, emoji: "🍙", popular: true, category: "ごはん" },
+      { id: 2, name: "サンドイッチ", price: 320, emoji: "🥪", popular: true, category: "パン" },
+      { id: 3, name: "お弁当", price: 520, emoji: "🍱", popular: true, category: "ごはん" },
+      { id: 4, name: "菓子パン", price: 180, emoji: "🥐", popular: true, category: "パン" },
+      { id: 5, name: "お茶", price: 120, emoji: "🍵", popular: false, category: "飲み物" },
+      { id: 6, name: "水", price: 100, emoji: "💧", popular: false, category: "飲み物" },
+      { id: 7, name: "ヨーグルト", price: 150, emoji: "🥛", popular: false, category: "軽食" },
+      { id: 8, name: "チョコ", price: 160, emoji: "🍫", popular: false, category: "お菓子" },
+      { id: 9, name: "クッキー", price: 140, emoji: "🍪", popular: false, category: "お菓子" },
+      { id: 10, name: "カップスープ", price: 210, emoji: "🥣", popular: false, category: "軽食" },
+      { id: 11, name: "カフェラテ", price: 180, emoji: "☕", popular: false, category: "飲み物" },
+      { id: 12, name: "ゼリー", price: 130, emoji: "🍮", popular: false, category: "軽食" },
+      { id: 13, name: "からあげ", price: 250, emoji: "🍗", popular: false, category: "軽食" },
+      { id: 14, name: "カレー弁当", price: 600, emoji: "🍛", popular: false, category: "ごはん" },
+      { id: 15, name: "メロンパン", price: 170, emoji: "🍈", popular: false, category: "パン" },
+      { id: 16, name: "グミ", price: 130, emoji: "🍬", popular: false, category: "お菓子" }
+    ];
+
+    let budget = 0;
+    let cart = [];
+    let selectedProduct = null;
+    let currentCategory = "all";
+    let currentMode = "";
+    let currentRecommendCount = 1;
+
+    document.addEventListener("DOMContentLoaded", function () {
+      updateBudgetStatus();
+      updateCartCount();
+      updateBudgetPreview();
+      showMode("popular");
+    });
+
+    function updateBudgetPreview() {
+      const slider = document.getElementById("budgetSlider");
+      const preview = document.getElementById("budgetPreview");
+      preview.textContent = slider.value;
+    }
+
+    function setSliderBudget() {
+      const slider = document.getElementById("budgetSlider");
+      budget = Number(slider.value);
+      selectedProduct = null;
+
+      updateBudgetStatus();
+      showMode("recommend");
+      showToast("今日の予算を" + budget + "円に設定しました！");
+    }
+
+    function getTotal() {
+      return cart.reduce(function (sum, item) {
+        return sum + item.price;
+      }, 0);
+    }
+
+    function getRemainingBudget() {
+      return budget - getTotal();
+    }
+
+    function updateBudgetStatus() {
+      const status = document.getElementById("budgetStatus");
+
+      if (budget === 0) {
+        status.textContent = "まだ予算が設定されていません";
+        return;
+      }
+
+      const total = getTotal();
+      const remaining = getRemainingBudget();
+
+      if (remaining >= 0) {
+        status.textContent =
+          "今日の予算：" + budget + "円 ／ 現在：" + total + "円 ／ 残り：" + remaining + "円";
+      } else {
+        status.textContent =
+          "今日の予算：" + budget + "円 ／ 現在：" + total + "円 ／ " + Math.abs(remaining) + "円オーバー";
+      }
+    }
+
+    function showMode(modeName) {
+      currentMode = modeName;
+      selectedProduct = null;
+
+      const modes = ["recommend", "category", "popular"];
+
+      modes.forEach(function (mode) {
+        document.getElementById(mode + "Mode").classList.remove("active");
+        document.getElementById(mode + "ModeButton").classList.remove("active");
+      });
+
+      document.getElementById(modeName + "Mode").classList.add("active");
+      document.getElementById(modeName + "ModeButton").classList.add("active");
+
+      if (modeName === "recommend") {
+        showRecommendations(currentRecommendCount);
+      }
+
+      if (modeName === "category") {
+        showCategory(currentCategory);
+      }
+
+      if (modeName === "popular") {
+        displayPopularProducts();
+      }
+    }
+
+    function displayPopularProducts() {
+      const area = document.getElementById("popularProducts");
+      area.innerHTML = "";
+
+      const popularItems = products.filter(function (product) {
+        return product.popular === true;
+      });
+
+      popularItems.forEach(function (product) {
+        area.appendChild(createProductCard(product, true));
+      });
+    }
+
+    function showCategory(categoryName) {
+      currentCategory = categoryName;
+      const area = document.getElementById("categoryProducts");
+      area.innerHTML = "";
+
+      let categoryItems;
+
+      if (categoryName === "all") {
+        categoryItems = products;
+      } else {
+        categoryItems = products.filter(function (product) {
+          return product.category === categoryName;
+        });
+      }
+
+      categoryItems.forEach(function (product) {
+        area.appendChild(createProductCard(product, false));
+      });
+    }
+
+    function showRecommendations(count) {
+      currentRecommendCount = count;
+
+      const area = document.getElementById("recommendProducts");
+      area.innerHTML = "";
+
+      if (budget === 0) {
+        area.innerHTML = "<p class='step-note'>予算を決めると、残り予算に合わせたおすすめ商品が表示されます。</p>";
+        return;
+      }
+
+      const remaining = getRemainingBudget();
+
+      if (remaining <= 0) {
+        area.innerHTML = "<p class='step-note'>残り予算がありません。買い物かごを確認してください。</p>";
+        return;
+      }
+
+      const cartIds = cart.map(function (item) {
+        return item.id;
+      });
+
+      const availableProducts = products.filter(function (product) {
+        return !cartIds.includes(product.id) && product.price <= remaining;
+      });
+
+      let recommendations = [];
+
+      if (count === 1) {
+        recommendations = availableProducts
+          .sort(function (a, b) {
+            return b.price - a.price;
+          })
+          .slice(0, 4);
+      } else {
+        recommendations = availableProducts
+          .sort(function (a, b) {
+            return a.price - b.price;
+          })
+          .slice(0, 6);
+      }
+
+      if (recommendations.length === 0) {
+        area.innerHTML = "<p class='step-note'>残り予算で買える商品がありません。</p>";
+        return;
+      }
+
+      recommendations.forEach(function (product) {
+        area.appendChild(createProductCard(product, false));
+      });
+    }
+
+    function createProductCard(product, isPopular) {
+      const card = document.createElement("div");
+
+      card.className = "product-card";
+      if (isPopular) card.classList.add("popular");
+      if (selectedProduct && selectedProduct.id === product.id) card.classList.add("selected");
+
+      card.onclick = function () {
+        selectProduct(product.id);
+      };
+
+      let detailHtml = "";
+
+      if (selectedProduct && selectedProduct.id === product.id) {
+        let detailContent = "";
+
+        if (budget === 0) {
+          detailContent =
+            '<div class="detail-row"><span>価格</span><strong>' + product.price + '円</strong></div>' +
+            '<div class="detail-row"><span>予算</span><strong>未設定</strong></div>';
+        } else {
+          const remainingNow = getRemainingBudget();
+          const afterRemaining = remainingNow - product.price;
+
+          let budgetText = "";
+
+          if (afterRemaining >= 0) {
+            budgetText = '<span class="after-budget">' + afterRemaining + '円</span>';
+          } else {
+            budgetText = '<span class="after-budget">' + Math.abs(afterRemaining) + '円オーバー</span>';
+          }
+
+          detailContent =
+            '<div class="detail-row"><span>現在の残金</span><strong>' + remainingNow + '円</strong></div>' +
+            '<div class="detail-row"><span>追加後の残金</span><strong>' + budgetText + '</strong></div>';
+        }
+
+        detailHtml =
+          '<div class="selected-detail">' +
+            detailContent +
+            '<button class="add-button" onclick="addProductToCart(event, ' + product.id + ')">カゴに追加</button>' +
+          '</div>';
+      }
+
+      card.innerHTML =
+        '<div class="card-main">' +
+          '<div class="emoji">' + product.emoji + '</div>' +
+          '<h3>' + product.name + '</h3>' +
+          '<div class="category-label">' + product.category + '</div>' +
+          '<div class="price">' + product.price + '円</div>' +
+        '</div>' +
+        detailHtml;
+
+      return card;
+    }
+
+    function selectProduct(productId) {
+      if (selectedProduct && selectedProduct.id === productId) {
+        selectedProduct = null;
+      } else {
+        selectedProduct = products.find(function (item) {
+          return item.id === productId;
+        });
+      }
+
+      refreshCurrentProductDisplay();
+    }
+
+    function addProductToCart(event, productId) {
+      event.stopPropagation();
+
+      const product = products.find(function (item) {
+        return item.id === productId;
+      });
+
+      if (budget === 0) {
+        alert("先に今日の予算を決定してください。");
+        return;
+      }
+
+      if (getTotal() + product.price > budget) {
+        const ok = confirm("予算を超えますが、買い物かごに入れますか？");
+        if (!ok) return;
+      }
+
+      cart.push(product);
+      selectedProduct = null;
+
+      updateBudgetStatus();
+      updateCartCount();
+      refreshCurrentProductDisplay();
+      showToast(product.name + "を買い物かごに入れました！");
+    }
+
+    function refreshCurrentProductDisplay() {
+      if (currentMode === "recommend") showRecommendations(currentRecommendCount);
+      if (currentMode === "category") showCategory(currentCategory);
+      if (currentMode === "popular") displayPopularProducts();
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+
+      setTimeout(function () {
+        toast.classList.remove("show");
+      }, 1500);
+    }
+
+    function updateCartCount() {
+      document.getElementById("cartCount").textContent = cart.length;
+    }
+
+    function showCartPage() {
+      document.getElementById("mainPage").style.display = "none";
+      document.getElementById("cartPage").style.display = "block";
+      displayCartItems();
+    }
+
+    function showMainPage() {
+      document.getElementById("cartPage").style.display = "none";
+      document.getElementById("mainPage").style.display = "block";
+    }
+
+    function displayCartItems() {
+      const area = document.getElementById("cartItems");
+      const totalArea = document.getElementById("totalPrice");
+      const warningArea = document.getElementById("budgetWarning");
+
+      area.innerHTML = "";
+
+      if (cart.length === 0) {
+        area.innerHTML = "<p class='step-note'>まだ商品が選ばれていません。</p>";
+      } else {
+        cart.forEach(function (item, index) {
+          const div = document.createElement("div");
+          div.className = "cart-item";
+
+          div.innerHTML =
+            '<span>' + item.emoji + ' ' + item.name + '</span>' +
+            '<span>' + item.price + '円' +
+            '<button onclick="removeFromCart(' + index + ')">削除</button>' +
+            '</span>';
+
+          area.appendChild(div);
+        });
+      }
+
+      const total = getTotal();
+      const remaining = budget - total;
+
+      totalArea.textContent = "合計：" + total + "円";
+
+      if (budget === 0) {
+        warningArea.textContent = "予算が設定されていません。";
+      } else if (remaining >= 0) {
+        warningArea.textContent = "残り予算：" + remaining + "円";
+      } else {
+        warningArea.textContent = Math.abs(remaining) + "円オーバーしています。";
+      }
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateBudgetStatus();
+      updateCartCount();
+      displayCartItems();
+      refreshCurrentProductDisplay();
+    }
+  </script>
+</body>
+</html>
