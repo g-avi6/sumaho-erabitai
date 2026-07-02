@@ -458,9 +458,9 @@
       <h2>今日の予算を決める</h2>
 
       <div class="budget-slider-area">
-        <div class="budget-display"><span id="budgetPreview">700</span>円</div>
-        <input type="range" id="budgetSlider" min="300" max="1000" step="10" value="700" oninput="updateBudgetPreview()">
-        <div class="range-labels"><span>300円</span><span>1000円</span></div>
+        <div class="budget-display"><span id="budgetPreview">0</span>円</div>
+        <input type="range" id="budgetSlider" min="0" max="1000" step="10" value="0" oninput="updateBudgetPreview()">
+        <div class="range-labels"><span>0円</span><span>1000円</span></div>
         <button class="primary-button" onclick="setSliderBudget()">この予算に決定</button>
       </div>
     </section>
@@ -3312,6 +3312,7 @@
 ];
 
     let budget = 0;
+    let budgetSet = false;
     let cart = [];
     let selectedProduct = null;
     let currentCategory = "all";
@@ -3351,6 +3352,7 @@
     function setSliderBudget() {
       const slider = document.getElementById("budgetSlider");
       budget = Number(slider.value);
+      budgetSet = true;
       selectedProduct = null;
       updateBudgetStatus();
       showMode("recommend");
@@ -3359,10 +3361,10 @@
 
     function getTotal() { return cart.reduce(function (sum, item) { return sum + item.price; }, 0); }
     function getRemainingBudget() { return budget - getTotal(); }
-    function isAffordable(product) { if (budget === 0) return true; return product.price <= getRemainingBudget(); }
+    function isAffordable(product) { if (!budgetSet) return true; return product.price <= getRemainingBudget(); }
 
     function sortProductsByAffordable(productList) {
-      if (budget === 0) return productList;
+      if (!budgetSet) return productList;
       return productList.slice().sort(function (a, b) {
         const aAffordable = isAffordable(a);
         const bAffordable = isAffordable(b);
@@ -3373,7 +3375,7 @@
 
     function updateBudgetStatus() {
       const status = document.getElementById("budgetStatus");
-      if (budget === 0) { status.textContent = "まだ予算が設定されていません"; return; }
+      if (!budgetSet) { status.textContent = "まだ予算が設定されていません"; return; }
       const total = getTotal();
       const remaining = getRemainingBudget();
       if (remaining >= 0) {
@@ -3459,7 +3461,7 @@
       let detailHtml = "";
       if (selectedProduct && selectedProduct.id === product.id) {
         let detailContent = "";
-        if (budget === 0) {
+        if (!budgetSet) {
           detailContent = '<div class="detail-row"><span>価格</span><strong>' + product.price + '円</strong></div>' +
                           '<div class="detail-row"><span>予算</span><strong>未設定</strong></div>';
         } else {
@@ -3490,7 +3492,7 @@
     function addProductToCart(event, productId) {
       event.stopPropagation();
       const product = products.find(function (item) { return item.id === productId; });
-      if (budget === 0) { alert("先に今日の予算を決定してください。"); return; }
+      if (!budgetSet) { alert("先に今日の予算を決定してください。"); return; }
       if (getTotal() + product.price > budget) { alert("残り予算が足りないため、この商品はカゴに追加できません。"); return; }
       cart.push(product);
       selectedProduct = null;
@@ -3534,7 +3536,7 @@
       const total = getTotal();
       const remaining = budget - total;
       totalArea.textContent = "合計：" + total + "円";
-      if (budget === 0) warningArea.textContent = "予算が設定されていません。";
+      if (!budgetSet) warningArea.textContent = "予算が設定されていません。";
       else if (remaining >= 0) warningArea.textContent = "残り予算：" + remaining + "円";
       else warningArea.textContent = Math.abs(remaining) + "円オーバーしています。";
     }
