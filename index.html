@@ -21,9 +21,7 @@
       --shadow-strong: rgba(13, 61, 136, 0.20);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -38,9 +36,7 @@
 
     .status {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 1200;
       padding: 12px 16px;
       color: var(--main);
@@ -104,27 +100,9 @@
       backdrop-filter: blur(10px);
     }
 
-    h2 {
-      margin: 0 0 18px;
-      color: var(--main);
-      font-size: 22px;
-      letter-spacing: 0.04em;
-      font-weight: 800;
-    }
-
-    h3 {
-      color: var(--main);
-      margin: 0 0 12px;
-      font-size: 18px;
-      letter-spacing: 0.03em;
-    }
-
-    .step-note {
-      margin-top: 6px;
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
+    h2 { margin: 0 0 18px; color: var(--main); font-size: 22px; letter-spacing: 0.04em; font-weight: 800; }
+    h3 { color: var(--main); margin: 0 0 12px; font-size: 18px; letter-spacing: 0.03em; }
+    .step-note { margin-top: 6px; font-size: 14px; color: var(--muted); line-height: 1.8; }
 
     .budget-slider-area {
       margin-top: 18px;
@@ -134,479 +112,117 @@
       border: 1px solid var(--line);
     }
 
-    .budget-display {
-      font-size: 34px;
-      font-weight: 800;
-      color: var(--main);
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .budget-display span {
-      font-size: 50px;
-      letter-spacing: 0.03em;
-      color: var(--sub);
-    }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--accent);
-      cursor: pointer;
-    }
-
-    .range-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    button {
-      font-family: inherit;
-    }
+    .budget-display { font-size: 34px; font-weight: 800; color: var(--main); text-align: center; margin-bottom: 16px; }
+    .budget-display span { font-size: 50px; letter-spacing: 0.03em; color: var(--sub); }
+    input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    .range-labels { display: flex; justify-content: space-between; margin-top: 8px; color: var(--muted); font-size: 13px; font-weight: 700; }
+    button { font-family: inherit; }
 
     .primary-button {
-      width: 100%;
-      margin-top: 18px;
-      padding: 15px 20px;
-      border: none;
-      border-radius: 999px;
-      background: var(--sub);
-      color: white;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
+      width: 100%; margin-top: 18px; padding: 15px 20px; border: none; border-radius: 999px;
+      background: var(--sub); color: white; font-size: 16px; font-weight: 800; cursor: pointer;
       transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
       box-shadow: 0 10px 22px rgba(229, 57, 45, 0.20);
     }
-
-    .primary-button:hover {
-      background: #cf2f25;
-      transform: translateY(-1px);
-      box-shadow: 0 12px 26px rgba(229, 57, 45, 0.24);
-    }
-
-    #productSelectSection {
-      display: block;
-    }
+    .primary-button:hover { background: #cf2f25; transform: translateY(-1px); box-shadow: 0 12px 26px rgba(229, 57, 45, 0.24); }
+    #productSelectSection { display: block; }
 
     .mode-buttons {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      padding: 6px;
-      background: #eef5ff;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      margin: 18px 0 24px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 6px;
+      background: #eef5ff; border: 1px solid var(--line); border-radius: 999px; margin: 18px 0 24px;
     }
-
     .mode-buttons button {
-      padding: 13px 14px;
-      border: none;
-      border-radius: 999px;
-      background: transparent;
-      color: var(--main);
-      font-size: 15px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: 0.15s ease;
+      padding: 13px 14px; border: none; border-radius: 999px; background: transparent;
+      color: var(--main); font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.15s ease;
     }
+    .mode-buttons button.active { background: var(--main); color: white; box-shadow: 0 7px 18px rgba(13, 61, 136, 0.28); }
+    .mode-area { display: none; animation: fadeIn 0.25s ease; }
+    .mode-area.active { display: block; }
 
-    .mode-buttons button.active {
-      background: var(--main);
-      color: white;
-      box-shadow: 0 7px 18px rgba(13, 61, 136, 0.28);
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .recommend-buttons, .category-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 20px; }
+    .recommend-buttons button, .category-buttons button {
+      padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96); color: var(--main); font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.15s ease;
     }
+    .recommend-buttons button:hover, .category-buttons button:hover { background: #f4f8ff; border-color: var(--main); }
 
-    .mode-area {
-      display: none;
-      animation: fadeIn 0.25s ease;
-    }
-
-    .mode-area.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .recommend-buttons,
-    .category-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 14px 0 20px;
-    }
-
-    .recommend-buttons button,
-    .category-buttons button {
-      padding: 10px 16px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.96);
-      color: var(--main);
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.15s ease;
-    }
-
-    .recommend-buttons button:hover,
-    .category-buttons button:hover {
-      background: #f4f8ff;
-      border-color: var(--main);
-    }
-
-    .product-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 18px;
-    }
-
+    .product-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; }
     .product-card {
-      position: relative;
-      min-height: 185px;
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background: rgba(255, 255, 255, 0.98);
-      cursor: pointer;
-      box-shadow: 0 8px 22px rgba(13, 61, 136, 0.06);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-      overflow: hidden;
+      position: relative; min-height: 185px; padding: 18px; border: 1px solid var(--line); border-radius: 28px;
+      background: rgba(255, 255, 255, 0.98); cursor: pointer; box-shadow: 0 8px 22px rgba(13, 61, 136, 0.06);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease; overflow: hidden;
     }
-
     .product-card::before {
-      content: "";
-      position: absolute;
-      top: -40px;
-      right: -40px;
-      width: 104px;
-      height: 104px;
-      border-radius: 50%;
-      background: rgba(255, 212, 59, 0.18);
-      z-index: 0;
+      content: ""; position: absolute; top: -40px; right: -40px; width: 104px; height: 104px; border-radius: 50%;
+      background: rgba(255, 212, 59, 0.18); z-index: 0;
     }
-
-    .product-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--main);
-      box-shadow: 0 14px 30px rgba(13, 61, 136, 0.12);
-    }
-
-    .product-card.selected {
-      border: 2px solid var(--sub);
-      background: #fffdf8;
-      box-shadow: 0 16px 36px rgba(229, 57, 45, 0.18);
-    }
-
-    .product-card.popular {
-      background: linear-gradient(180deg, #ffffff, #fff8df);
-    }
-
-    .product-card.unaffordable {
-      opacity: 0.42;
-      filter: grayscale(25%);
-      background: #f3f5f8;
-    }
-
-    .product-card.unaffordable:hover {
-      transform: none;
-      box-shadow: 0 8px 22px rgba(13, 61, 136, 0.06);
-      border-color: var(--line);
-    }
-
+    .product-card:hover { transform: translateY(-4px); border-color: var(--main); box-shadow: 0 14px 30px rgba(13, 61, 136, 0.12); }
+    .product-card.selected { border: 2px solid var(--sub); background: #fffdf8; box-shadow: 0 16px 36px rgba(229, 57, 45, 0.18); }
+    .product-card.popular { background: linear-gradient(180deg, #ffffff, #fff8df); }
+    .product-card.unaffordable { opacity: 0.42; filter: grayscale(25%); background: #f3f5f8; }
+    .product-card.unaffordable:hover { transform: none; box-shadow: 0 8px 22px rgba(13, 61, 136, 0.06); border-color: var(--line); }
     .product-card.unaffordable::after {
-      content: "残金不足";
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(90, 111, 143, 0.18);
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      z-index: 2;
+      content: "残金不足"; position: absolute; top: 14px; left: 14px; padding: 4px 10px; border-radius: 999px;
+      background: rgba(90, 111, 143, 0.18); color: var(--muted); font-size: 12px; font-weight: 800; z-index: 2;
     }
 
-    .card-main {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-    }
-
-    .emoji {
-      font-size: 42px;
-      margin-bottom: 8px;
-    }
-
-    .product-card h3 {
-      margin: 6px 0;
-      font-size: 18px;
-      color: var(--text);
-      font-weight: 800;
-    }
-
+    .card-main { position: relative; z-index: 1; text-align: center; }
+    .emoji { font-size: 42px; margin-bottom: 8px; }
+    .product-card h3 { margin: 6px 0; font-size: 18px; color: var(--text); font-weight: 800; }
     .category-label {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--soft);
-      color: var(--main);
-      font-size: 12px;
-      font-weight: 700;
-      border: 1px solid #d8e4f6;
+      display: inline-block; padding: 4px 10px; border-radius: 999px; background: var(--soft); color: var(--main);
+      font-size: 12px; font-weight: 700; border: 1px solid #d8e4f6;
     }
-
-    .price {
-      margin-top: 10px;
-      color: var(--sub);
-      font-weight: 800;
-      font-size: 20px;
-    }
-
-    .selected-detail {
-      position: relative;
-      z-index: 1;
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px dashed var(--line);
-      animation: fadeIn 0.2s ease;
-    }
-
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin: 6px 0;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .detail-row strong {
-      color: var(--main);
-    }
-
-    .after-budget {
-      color: var(--sub);
-      font-weight: 800;
-    }
+    .price { margin-top: 10px; color: var(--sub); font-weight: 800; font-size: 20px; }
+    .selected-detail { position: relative; z-index: 1; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); animation: fadeIn 0.2s ease; }
+    .detail-row { display: flex; justify-content: space-between; gap: 10px; margin: 6px 0; font-size: 14px; color: var(--muted); }
+    .detail-row strong { color: var(--main); }
+    .after-budget { color: var(--sub); font-weight: 800; }
 
     .add-button {
-      width: 100%;
-      margin-top: 12px;
-      padding: 12px 16px;
-      border: none;
-      border-radius: 999px;
-      background: var(--accent);
-      color: var(--main);
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: 0.15s ease;
+      width: 100%; margin-top: 12px; padding: 12px 16px; border: none; border-radius: 999px;
+      background: var(--accent); color: var(--main); font-size: 15px; font-weight: 900; cursor: pointer; transition: 0.15s ease;
       box-shadow: 0 8px 18px rgba(255, 212, 59, 0.28);
     }
-
-    .add-button:hover {
-      background: #f7ca1a;
-    }
-
+    .add-button:hover { background: #f7ca1a; }
     .cart-button {
-      position: fixed;
-      right: 22px;
-      bottom: 22px;
-      background: var(--main);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 72px;
-      height: 72px;
-      font-size: 30px;
-      box-shadow: 0 12px 30px rgba(13, 61, 136, 0.28);
-      cursor: pointer;
-      z-index: 999;
-      transition: 0.15s ease;
+      position: fixed; right: 22px; bottom: 22px; background: var(--main); color: white; border: none; border-radius: 50%;
+      width: 72px; height: 72px; font-size: 30px; box-shadow: 0 12px 30px rgba(13, 61, 136, 0.28); cursor: pointer; z-index: 999; transition: 0.15s ease;
     }
-
-    .cart-button:hover {
-      background: #0a3170;
-      transform: translateY(-1px);
-    }
-
+    .cart-button:hover { background: #0a3170; transform: translateY(-1px); }
     .cart-count {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: var(--sub);
-      color: white;
-      border-radius: 50%;
-      width: 27px;
-      height: 27px;
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 27px;
-      border: 2px solid white;
+      position: absolute; top: -5px; right: -5px; background: var(--sub); color: white; border-radius: 50%; width: 27px; height: 27px;
+      font-size: 14px; font-weight: 800; line-height: 27px; border: 2px solid white;
     }
-
     .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 110px;
-      transform: translateX(-50%);
-      background: var(--main);
-      color: white;
-      padding: 12px 20px;
-      border-radius: 999px;
-      font-weight: 800;
-      box-shadow: 0 10px 26px rgba(13, 61, 136, 0.26);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 1000;
+      position: fixed; left: 50%; bottom: 110px; transform: translateX(-50%); background: var(--main); color: white; padding: 12px 20px;
+      border-radius: 999px; font-weight: 800; box-shadow: 0 10px 26px rgba(13, 61, 136, 0.26); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000;
     }
-
-    .toast.show {
-      opacity: 1;
-    }
-
-    #cartPage {
-      display: none;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .cart-item button {
-      margin-left: 8px;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 999px;
-      background: var(--soft);
-      color: var(--main);
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .cart-item button:hover {
-      background: #dfeaff;
-    }
-
-    .total {
-      margin-top: 18px;
-      text-align: right;
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--main);
-    }
-
-    .warning {
-      text-align: right;
-      margin-top: 8px;
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .complete-message {
-      margin-top: 18px;
-      padding: 16px;
-      border-radius: 18px;
-      background: var(--soft);
-      border: 1px solid var(--line);
-      font-weight: 800;
-      text-align: center;
-      color: var(--main);
-    }
-
-    .back-button {
-      margin-top: 18px;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 999px;
-      background: var(--sub);
-      color: white;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 800;
-    }
-
-    .back-button:hover {
-      background: #cf2f25;
-    }
+    .toast.show { opacity: 1; }
+    #cartPage { display: none; }
+    .cart-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .cart-item button { margin-left: 8px; padding: 6px 10px; border: none; border-radius: 999px; background: var(--soft); color: var(--main); cursor: pointer; font-weight: 700; }
+    .cart-item button:hover { background: #dfeaff; }
+    .total { margin-top: 18px; text-align: right; font-size: 24px; font-weight: 800; color: var(--main); }
+    .warning { text-align: right; margin-top: 8px; color: var(--muted); font-weight: 800; }
+    .complete-message { margin-top: 18px; padding: 16px; border-radius: 18px; background: var(--soft); border: 1px solid var(--line); font-weight: 800; text-align: center; color: var(--main); }
+    .back-button { margin-top: 18px; padding: 12px 18px; border: none; border-radius: 999px; background: var(--sub); color: white; cursor: pointer; font-size: 15px; font-weight: 800; }
+    .back-button:hover { background: #cf2f25; }
 
     @media (max-width: 760px) {
-      body {
-        padding-top: 64px;
-      }
-
-      header {
-        max-width: calc(100% - 24px);
-        margin: 12px 12px 0;
-        border-radius: 22px;
-        padding: 18px 14px;
-      }
-
-      header h1 {
-        font-size: 25px;
-      }
-
-      header p {
-        font-size: 13px;
-        padding: 8px 10px;
-        margin-top: 8px;
-      }
-
-      main {
-        padding: 14px;
-        padding-bottom: 90px;
-      }
-
-      section {
-        padding: 18px;
-        border-radius: 26px;
-      }
-
-      .status {
-        font-size: 13px;
-        padding: 10px 8px;
-      }
-
-      .mode-buttons {
-        grid-template-columns: 1fr;
-        border-radius: 24px;
-      }
-
-      .product-list {
-        grid-template-columns: 1fr;
-      }
-
-      .cart-button {
-        width: 62px;
-        height: 62px;
-        font-size: 26px;
-      }
-
-      .toast {
-        width: 84%;
-        text-align: center;
-      }
+      body { padding-top: 64px; }
+      header { max-width: calc(100% - 24px); margin: 12px 12px 0; border-radius: 22px; padding: 18px 14px; }
+      header h1 { font-size: 25px; }
+      header p { font-size: 13px; padding: 8px 10px; margin-top: 8px; }
+      main { padding: 14px; padding-bottom: 90px; }
+      section { padding: 18px; border-radius: 26px; }
+      .status { font-size: 13px; padding: 10px 8px; }
+      .mode-buttons { grid-template-columns: 1fr; border-radius: 24px; }
+      .product-list { grid-template-columns: 1fr; }
+      .cart-button { width: 62px; height: 62px; font-size: 26px; }
+      .toast { width: 84%; text-align: center; }
     }
   </style>
 </head>
@@ -624,32 +240,15 @@
       <h2>今日の予算を決める</h2>
 
       <div class="budget-slider-area">
-        <div class="budget-display">
-          <span id="budgetPreview">700</span>円
-        </div>
-
-        <input
-          type="range"
-          id="budgetSlider"
-          min="300"
-          max="1000"
-          step="10"
-          value="700"
-          oninput="updateBudgetPreview()"
-        >
-
-        <div class="range-labels">
-          <span>300円</span>
-          <span>1000円</span>
-        </div>
-
+        <div class="budget-display"><span id="budgetPreview">700</span>円</div>
+        <input type="range" id="budgetSlider" min="300" max="1000" step="10" value="700" oninput="updateBudgetPreview()">
+        <div class="range-labels"><span>300円</span><span>1000円</span></div>
         <button class="primary-button" onclick="setSliderBudget()">この予算に決定</button>
       </div>
     </section>
 
     <section id="productSelectSection">
       <h2>商品を選ぶ</h2>
-
       <div class="mode-buttons">
         <button id="recommendModeButton" onclick="showMode('recommend')">おすすめ</button>
         <button id="categoryModeButton" onclick="showMode('category')">カテゴリー</button>
@@ -658,33 +257,18 @@
 
       <div id="recommendMode" class="mode-area">
         <h3>おすすめ商品</h3>
-
-        <div class="recommend-buttons">
-          <button onclick="showRecommendations(1)">＋1品でおすすめ</button>
-          <button onclick="showRecommendations(2)">＋2品でおすすめ</button>
-        </div>
-
+        <div class="recommend-buttons"><button onclick="showRecommendations(1)">＋1品でおすすめ</button><button onclick="showRecommendations(2)">＋2品でおすすめ</button></div>
         <div class="product-list" id="recommendProducts"></div>
       </div>
 
       <div id="categoryMode" class="mode-area">
         <h3>カテゴリーから選ぶ</h3>
-
-        <div class="category-buttons">
-          <button onclick="showCategory('all')">すべて</button>
-          <button onclick="showCategory('ごはん')">ごはん</button>
-          <button onclick="showCategory('パン')">パン</button>
-          <button onclick="showCategory('飲み物')">飲み物</button>
-          <button onclick="showCategory('お菓子')">お菓子</button>
-          <button onclick="showCategory('軽食')">軽食</button>
-        </div>
-
+        <div class="category-buttons" id="categoryButtons"></div>
         <div class="product-list" id="categoryProducts"></div>
       </div>
 
       <div id="popularMode" class="mode-area">
         <h3>今日の人気商品</h3>
-
         <div class="product-list" id="popularProducts"></div>
       </div>
     </section>
@@ -693,49 +277,2821 @@
   <main id="cartPage">
     <section>
       <h2>買い物かごの確認</h2>
-      <p class="step-note">
-        選んだ商品を確認して、実際に生協で迷わず購入できます。
-      </p>
-
+      <p class="step-note">選んだ商品を確認して、実際に生協で迷わず購入できます。</p>
       <div id="cartItems"></div>
-
       <div class="total" id="totalPrice"></div>
       <div class="warning" id="budgetWarning"></div>
-
-      <div class="complete-message">
-        この画面を見ながら、生協で商品を探して購入しましょう。
-      </div>
-
+      <div class="complete-message">この画面を見ながら、生協で商品を探して購入しましょう。</div>
       <button class="back-button" onclick="showMainPage()">商品選択に戻る</button>
     </section>
   </main>
 
-  <button class="cart-button" onclick="showCartPage()">
-    🛒
-    <span class="cart-count" id="cartCount">0</span>
-  </button>
-
+  <button class="cart-button" onclick="showCartPage()">🛒<span class="cart-count" id="cartCount">0</span></button>
   <div class="toast" id="toast"></div>
 
   <script>
     const products = [
-      { id: 1, name: "おにぎり", price: 130, emoji: "🍙", popular: true, category: "ごはん" },
-      { id: 2, name: "サンドイッチ", price: 320, emoji: "🥪", popular: true, category: "パン" },
-      { id: 3, name: "お弁当", price: 520, emoji: "🍱", popular: true, category: "ごはん" },
-      { id: 4, name: "菓子パン", price: 180, emoji: "🥐", popular: true, category: "パン" },
-      { id: 5, name: "お茶", price: 120, emoji: "🍵", popular: false, category: "飲み物" },
-      { id: 6, name: "水", price: 100, emoji: "💧", popular: false, category: "飲み物" },
-      { id: 7, name: "ヨーグルト", price: 150, emoji: "🥛", popular: false, category: "軽食" },
-      { id: 8, name: "チョコ", price: 160, emoji: "🍫", popular: false, category: "お菓子" },
-      { id: 9, name: "クッキー", price: 140, emoji: "🍪", popular: false, category: "お菓子" },
-      { id: 10, name: "カップスープ", price: 210, emoji: "🥣", popular: false, category: "軽食" },
-      { id: 11, name: "カフェラテ", price: 180, emoji: "☕", popular: false, category: "飲み物" },
-      { id: 12, name: "ゼリー", price: 130, emoji: "🍮", popular: false, category: "軽食" },
-      { id: 13, name: "からあげ", price: 250, emoji: "🍗", popular: false, category: "軽食" },
-      { id: 14, name: "カレー弁当", price: 600, emoji: "🍛", popular: false, category: "ごはん" },
-      { id: 15, name: "メロンパン", price: 170, emoji: "🍈", popular: false, category: "パン" },
-      { id: 16, name: "グミ", price: 130, emoji: "🍬", popular: false, category: "お菓子" }
-    ];
+      {
+            "id": 1,
+            "name": "ＵＣ手巻　ツナマヨ",
+            "price": 177,
+            "category": "おにぎり",
+            "popular": true
+      },
+      {
+            "id": 2,
+            "name": "ＵＣ手巻　漬けまぐろ",
+            "price": 189,
+            "category": "おにぎり",
+            "popular": true
+      },
+      {
+            "id": 3,
+            "name": "ＵＣ手巻　明太子",
+            "price": 189,
+            "category": "おにぎり",
+            "popular": true
+      },
+      {
+            "id": 4,
+            "name": "おにぎりＱ　明太だし玉子",
+            "price": 213,
+            "category": "おにぎり",
+            "popular": true
+      },
+      {
+            "id": 5,
+            "name": "おにぎりＱ唐揚マヨ",
+            "price": 213,
+            "category": "おにぎり",
+            "popular": true
+      },
+      {
+            "id": 6,
+            "name": "ごま塩おにぎり",
+            "price": 132,
+            "category": "おにぎり",
+            "popular": true
+      },
+      {
+            "id": 7,
+            "name": "ふんわりおむすび　牛カルビ",
+            "price": 219,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 8,
+            "name": "ふんわりおむすび　漬けまぐろ",
+            "price": 219,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 9,
+            "name": "マッキーバー　ツナキンパ",
+            "price": 258,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 10,
+            "name": "マッキーバー　豚キムチキンパ",
+            "price": 258,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 11,
+            "name": "ゆかりおにぎり",
+            "price": 138,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 12,
+            "name": "一番だしおにぎり　鮭明太",
+            "price": 169,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 13,
+            "name": "鮭いくらおにぎり",
+            "price": 169,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 14,
+            "name": "鮭ごまおむすび",
+            "price": 159,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 15,
+            "name": "手巻　うま辛豚焼肉",
+            "price": 194,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 16,
+            "name": "手巻　とろサーモン",
+            "price": 179,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 17,
+            "name": "手巻　鶏そぼろ",
+            "price": 194,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 18,
+            "name": "手巻おにぎり　鮭",
+            "price": 179,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 19,
+            "name": "手巻おにぎり（昆布）",
+            "price": 205,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 20,
+            "name": "赤飯おにぎり",
+            "price": 168,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 21,
+            "name": "大きなおむすび　天たれ",
+            "price": 199,
+            "category": "おにぎり",
+            "popular": false
+      },
+      {
+            "id": 22,
+            "name": "２０品目の彩りサラダ（亜麻仁油入り胡麻ドレ）",
+            "price": 257,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 23,
+            "name": "６種野菜とハムのシーザーラップサラダ",
+            "price": 354,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 24,
+            "name": "オクラとわかめのねばねばサラダ１０％増量",
+            "price": 213,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 25,
+            "name": "コーンサラダ",
+            "price": 213,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 26,
+            "name": "シーザーサラダ",
+            "price": 213,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 27,
+            "name": "タイ風春雨サラダ",
+            "price": 321,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 28,
+            "name": "トルティーヤ（牛焼肉）",
+            "price": 462,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 29,
+            "name": "パストラミポークの生春巻き（わさびドレ）",
+            "price": 429,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 30,
+            "name": "ハラペーニョ入り！タコスミートのラップサラダ",
+            "price": 354,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 31,
+            "name": "海の幸たらこスパゲティサラダ",
+            "price": 321,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 32,
+            "name": "玉子ポテマカサラダ",
+            "price": 214,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 33,
+            "name": "胡麻油香る！チョレギサラダ（小）",
+            "price": 235,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 34,
+            "name": "濃厚胡麻ドレッシングの棒棒鶏サラダ",
+            "price": 354,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 35,
+            "name": "白菜のバラン酢サラダ",
+            "price": 235,
+            "category": "サラダ",
+            "popular": false
+      },
+      {
+            "id": 36,
+            "name": "★コールスローサラダサンド",
+            "price": 253,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 37,
+            "name": "★チキンカツサンド",
+            "price": 268,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 38,
+            "name": "★ミックスサンド",
+            "price": 252,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 39,
+            "name": "★半熟卵とハムのサンド",
+            "price": 268,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 40,
+            "name": "★野菜ミックスサンド",
+            "price": 253,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 41,
+            "name": "★燻しベーコンのＢＬＴサンド",
+            "price": 332,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 42,
+            "name": "Ｓ照焼チキンサンド",
+            "price": 378,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 43,
+            "name": "アソートサンド（ベーシック）",
+            "price": 419,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 44,
+            "name": "ビッグ焼きそばロール",
+            "price": 205,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 45,
+            "name": "フルーツミックスサンド",
+            "price": 399,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 46,
+            "name": "王道のタマゴサンドＢＯＸ",
+            "price": 386,
+            "category": "サンドイッチ",
+            "popular": false
+      },
+      {
+            "id": 47,
+            "name": "もちもち食感！水餃子と平春雨の中華スープ",
+            "price": 397,
+            "category": "スープ",
+            "popular": false
+      },
+      {
+            "id": 48,
+            "name": "柚子香る！蓮根入り鶏だんごの和風スープ",
+            "price": 397,
+            "category": "スープ",
+            "popular": false
+      },
+      {
+            "id": 49,
+            "name": "助六寿司",
+            "price": 403,
+            "category": "寿司スシ",
+            "popular": false
+      },
+      {
+            "id": 50,
+            "name": "ＬＬ６種のフルーツケーキ（日々カフェ）",
+            "price": 151,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 51,
+            "name": "ＬＬごろごろとしたりんごのパイ（日々カフェ）",
+            "price": 162,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 52,
+            "name": "お粥ＤＥＬＩ　鯛と蕪の柚子粥",
+            "price": 321,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 53,
+            "name": "サラダチキンスティック（スモーク）",
+            "price": 181,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 54,
+            "name": "サラダチキンスティック（バジル）",
+            "price": 181,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 55,
+            "name": "サラダチキンスティックスモーク",
+            "price": 181,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 56,
+            "name": "サラダチキンロースト藻塩仕立て",
+            "price": 257,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 57,
+            "name": "しっとり仕立てのフィナンシェ　２個入",
+            "price": 162,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 58,
+            "name": "ちょいパクラスクチョコ味",
+            "price": 118,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 59,
+            "name": "ちょいパクラスクフレンチトースト味",
+            "price": 118,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 60,
+            "name": "ちょっと贅沢レーズンサンドバラ",
+            "price": 118,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 61,
+            "name": "パクたま　　ほんのり醤油味",
+            "price": 125,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 62,
+            "name": "パクたま　ほんのり塩味",
+            "price": 120,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 63,
+            "name": "パクっと厚焼きたまご",
+            "price": 160,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 64,
+            "name": "フロランタンみたいなケーキ",
+            "price": 151,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 65,
+            "name": "ほっこりすいーとぽてとプレーン",
+            "price": 149,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 66,
+            "name": "マネケンクッキー＆クリームワッフル",
+            "price": 162,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 67,
+            "name": "マネケンストロベリーチーズケーキワッフル",
+            "price": 183,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 68,
+            "name": "マネケンメープルワッフル",
+            "price": 183,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 69,
+            "name": "ミニ羊かん（本煉）",
+            "price": 86,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 70,
+            "name": "ラッパーズハム＆チーズ",
+            "price": 289,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 71,
+            "name": "磯辺餅",
+            "price": 173,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 72,
+            "name": "沖縄県産もずくと春雨のさっぱり酢の物",
+            "price": 321,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 73,
+            "name": "沖縄県産紅芋のタルト",
+            "price": 151,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 74,
+            "name": "串団子　すりごまだれ（３）",
+            "price": 140,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 75,
+            "name": "串団子　つぶあん３個",
+            "price": 140,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 76,
+            "name": "串団子ごま（３）",
+            "price": 145,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 77,
+            "name": "串団子たれ（３）",
+            "price": 140,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 78,
+            "name": "五三焼カステラ",
+            "price": 145,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 79,
+            "name": "国産小麦　あんバターフィナンシェサンド",
+            "price": 162,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 80,
+            "name": "国産小麦　もちっとどら焼き２個入",
+            "price": 140,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 81,
+            "name": "黒糖まん（ＰＥシート）",
+            "price": 124,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 82,
+            "name": "煮玉子マヨおにぎり",
+            "price": 189,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 83,
+            "name": "世にもおいしいチョコクッキー",
+            "price": 172,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 84,
+            "name": "瀬戸内レモンのタルト",
+            "price": 151,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 85,
+            "name": "生ハム肩ロース",
+            "price": 138,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 86,
+            "name": "豆大福（ＰＥシート）",
+            "price": 124,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 87,
+            "name": "豆腐のふわふわつくね",
+            "price": 321,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 88,
+            "name": "北海道クリームチーズのタルト",
+            "price": 140,
+            "category": "その他タ",
+            "popular": false
+      },
+      {
+            "id": 89,
+            "name": "ＳＰホワイトデニッシュショコラ",
+            "price": 162,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 90,
+            "name": "ＴＬうずまきチョコ",
+            "price": 151,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 91,
+            "name": "ＴＬルヴァンクリームパン",
+            "price": 156,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 92,
+            "name": "カルピス蒸しケーキ",
+            "price": 156,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 93,
+            "name": "カルピス蒸しケーキ（完熟白桃）",
+            "price": 156,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 94,
+            "name": "カレーコロッケドッグ（カレーソース）",
+            "price": 172,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 95,
+            "name": "コッペパン（ジャム＆マーガリン）",
+            "price": 145,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 96,
+            "name": "ずっしりデニッシュ（りんご）",
+            "price": 129,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 97,
+            "name": "たっぷりコーンマヨパン",
+            "price": 162,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 98,
+            "name": "チョコチップスナック（５）",
+            "price": 124,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 99,
+            "name": "ベルギーチョコ蒸しケーキ",
+            "price": 151,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 100,
+            "name": "ホイップメロンパン　北海道メロン",
+            "price": 140,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 101,
+            "name": "やわらかクラウンメロンロール",
+            "price": 129,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 102,
+            "name": "やわらかベルギーチョコロール",
+            "price": 129,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 103,
+            "name": "やわらか北海道ミルクロール",
+            "price": 129,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 104,
+            "name": "ランチパック（カルピス入りホイップ）",
+            "price": 156,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 105,
+            "name": "ランチパック（カルピス入りホイップ）完熟白桃",
+            "price": 156,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 106,
+            "name": "ランチパック（キーマカレー）",
+            "price": 129,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 107,
+            "name": "ランチパック（プリン風味）",
+            "price": 129,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 108,
+            "name": "ランチパック（小倉＆マーガリン）",
+            "price": 129,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 109,
+            "name": "ランチパック４種のおいしさ（たまご・ツナ・ロースハ",
+            "price": 183,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 110,
+            "name": "ランチパックいちごジャム＆マーガリン",
+            "price": 145,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 111,
+            "name": "ランチパックタマゴ",
+            "price": 167,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 112,
+            "name": "ランチパックチョコクリーム",
+            "price": 145,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 113,
+            "name": "ランチパックツナサラダ",
+            "price": 167,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 114,
+            "name": "ランチパックピーナッツクリーム",
+            "price": 145,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 115,
+            "name": "牛乳仕込みのミルクチュロッキ",
+            "price": 140,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 116,
+            "name": "大きなチョコチップメロンパン",
+            "price": 162,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 117,
+            "name": "薄皮カルピスクリームパン（４）",
+            "price": 199,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 118,
+            "name": "薄皮クリームパン（４）",
+            "price": 199,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 119,
+            "name": "薄皮チョコパン（４）",
+            "price": 199,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 120,
+            "name": "北海道チーズ蒸しケーキ",
+            "price": 145,
+            "category": "パン",
+            "popular": false
+      },
+      {
+            "id": 121,
+            "name": "* スマートミール弁当しっかり",
+            "price": 650,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 122,
+            "name": "* スマートミール弁当ちゃんと",
+            "price": 650,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 123,
+            "name": "２段　チーズハンバーグ＆タルタルチキン",
+            "price": 669,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 124,
+            "name": "３色そぼろ弁当",
+            "price": 537,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 125,
+            "name": "いなり３個入り",
+            "price": 157,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 126,
+            "name": "ふわふわ玉子のデミオムライス",
+            "price": 429,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 127,
+            "name": "もっちり五穀の牛カルビ野菜ビビンバ丼",
+            "price": 565,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 128,
+            "name": "管理栄養士監修弁当",
+            "price": 537,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 129,
+            "name": "冷やして食べるチキン南蛮",
+            "price": 386,
+            "category": "米飯ベイハン",
+            "popular": false
+      },
+      {
+            "id": 130,
+            "name": "１／３日分野菜のあんかけ焼きそば",
+            "price": 494,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 131,
+            "name": "コク旨ごまだれ冷し中華",
+            "price": 559,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 132,
+            "name": "しっとり蒸し鶏と帆立の旨み冷し塩ラーメン",
+            "price": 559,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 133,
+            "name": "ソース焼そば",
+            "price": 150,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 134,
+            "name": "だし香る和風明太パスタ",
+            "price": 516,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 135,
+            "name": "チーズたっぷり贅沢ボロネーゼ",
+            "price": 559,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 136,
+            "name": "やみつきの辛さ！冷し担々麺",
+            "price": 559,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 137,
+            "name": "高知県産おろし生姜と半熟玉子の冷しうどん",
+            "price": 451,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 138,
+            "name": "国産とろろの五割そば",
+            "price": 408,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 139,
+            "name": "赤ワイン仕立てのボロネーゼ",
+            "price": 378,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 140,
+            "name": "大根おろしで食べるツナの和風カッペリーニ",
+            "price": 429,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 141,
+            "name": "濃厚ソースのカルボナーラ",
+            "price": 378,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 142,
+            "name": "冷やしビリ辛豚まぜ蕎麦",
+            "price": 537,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 143,
+            "name": "痺れる辛さ！冷やし麻辣まぜ麺",
+            "price": 537,
+            "category": "麺メン",
+            "popular": false
+      },
+      {
+            "id": 144,
+            "name": "ＭＯＷ　バニラ",
+            "price": 184,
+            "category": "アイス",
+            "popular": true
+      },
+      {
+            "id": 145,
+            "name": "ＭＯＷ　宇治抹茶",
+            "price": 184,
+            "category": "アイス",
+            "popular": true
+      },
+      {
+            "id": 146,
+            "name": "ザ・クレープ　チョコ＆バニラ",
+            "price": 205,
+            "category": "アイス",
+            "popular": true
+      },
+      {
+            "id": 147,
+            "name": "ガーナチョコ＆クッキーサンド",
+            "price": 184,
+            "category": "アイス",
+            "popular": true
+      },
+      {
+            "id": 148,
+            "name": "ミニカップ　グリーンティー",
+            "price": 354,
+            "category": "アイス",
+            "popular": true
+      },
+      {
+            "id": 149,
+            "name": "ＲＯＣＫＹカップ１８０ｇ",
+            "price": 180,
+            "category": "アイス",
+            "popular": true
+      },
+      {
+            "id": 150,
+            "name": "牧場しぼり　ミルク",
+            "price": 184,
+            "category": "アイス",
+            "popular": false
+      },
+      {
+            "id": 151,
+            "name": "ビスケットサンド",
+            "price": 184,
+            "category": "アイス",
+            "popular": false
+      },
+      {
+            "id": 152,
+            "name": "板チョコアイス",
+            "price": 205,
+            "category": "アイス",
+            "popular": false
+      },
+      {
+            "id": 153,
+            "name": "ＢＩＧスイカバー",
+            "price": 133,
+            "category": "アイス",
+            "popular": false
+      },
+      {
+            "id": 154,
+            "name": "ＣＯミックスキャロット",
+            "price": 113,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 155,
+            "name": "ＣＯ国産大豆の調製豆乳",
+            "price": 86,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 156,
+            "name": "ＣＯ国産大豆の豆乳飲料麦芽コーヒー",
+            "price": 95,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 157,
+            "name": "野菜生活１００マンゴーサラダ",
+            "price": 130,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 158,
+            "name": "野菜生活１００グリーンスムージー",
+            "price": 205,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 159,
+            "name": "野菜生活１００ベリーサラダ",
+            "price": 130,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 160,
+            "name": "野菜生活１００アサイー＆ベリーｍｉｘスムージー",
+            "price": 205,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 161,
+            "name": "トロピカーナ１００％マンゴーブレンド",
+            "price": 138,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 162,
+            "name": "豆乳飲料　きなこ",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 163,
+            "name": "アーモンド効果薫るカカオ",
+            "price": 142,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 164,
+            "name": "アーモンド効果ほろ苦キャラメル味",
+            "price": 142,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 165,
+            "name": "酪王カフェオレ",
+            "price": 178,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 166,
+            "name": "プルーンＦｅ１日分の鉄分のむヨーグルト",
+            "price": 155,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 167,
+            "name": "野菜一日これ一本",
+            "price": 125,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 168,
+            "name": "野菜生活１００バナナ＆アーモンドｍｉｘスムージー",
+            "price": 205,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 169,
+            "name": "北海道牛乳",
+            "price": 135,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 170,
+            "name": "無調整豆乳",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 171,
+            "name": "豆乳飲料　ココア",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 172,
+            "name": "アーモンド効果",
+            "price": 142,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 173,
+            "name": "マウントレーニア　カフェラッテ",
+            "price": 194,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 174,
+            "name": "豆乳飲料　紅茶",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 175,
+            "name": "豆乳飲料　クッキー＆クリーム",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 176,
+            "name": "珈琲所コメダ珈琲店　まろやかミルクコーヒー",
+            "price": 247,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 177,
+            "name": "北海道のむヨーグルト　プレーン",
+            "price": 178,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 178,
+            "name": "エッセンシャルズ　鉄分",
+            "price": 158,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 179,
+            "name": "野菜生活１００オリジナル",
+            "price": 130,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 180,
+            "name": "野菜生活１００ビタミンスムージー",
+            "price": 205,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 181,
+            "name": "野菜生活１００スムージーシチリアオレンジ＆ベルガモ",
+            "price": 205,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 182,
+            "name": "トロピカーナ１００％アップル",
+            "price": 138,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 183,
+            "name": "エッセンシャルズ　マルチビタミン",
+            "price": 158,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 184,
+            "name": "豆乳飲料　麦芽コーヒー",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 185,
+            "name": "豆乳飲料　杏仁豆腐",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 186,
+            "name": "珈琲所コメダ珈琲店　黒みつミルクコーヒー",
+            "price": 247,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 187,
+            "name": "珈琲所コメダ珈琲店　キャラメルミルクコーヒー",
+            "price": 237,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 188,
+            "name": "マウントレーニア　エスプレッソ",
+            "price": 194,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 189,
+            "name": "豆乳飲料　抹茶",
+            "price": 108,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 190,
+            "name": "オイコスプロテインドリンクカカオ",
+            "price": 267,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 191,
+            "name": "オイコスプロテインドリンクヘーゼルナッツチョコ",
+            "price": 267,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 192,
+            "name": "リプトン　ジャスミンミルクティー",
+            "price": 185,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 193,
+            "name": "野菜生活１００アップルサラダ",
+            "price": 130,
+            "category": "紙パック飲料カミインリョウ",
+            "popular": false
+      },
+      {
+            "id": 194,
+            "name": "もちもちたい焼き贅沢カスタードクリーム",
+            "price": 183,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 195,
+            "name": "クリーム生フィナンシェ",
+            "price": 183,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 196,
+            "name": "マカロン　チョコミント",
+            "price": 224,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 197,
+            "name": "もちもちたい焼き定番のたっぷり小豆",
+            "price": 183,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 198,
+            "name": "ＦＣ蔵屋ＰＢクリームクロワッサンミルクテ",
+            "price": 248,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 199,
+            "name": "大きなツインシュー",
+            "price": 129,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 200,
+            "name": "塩バニラスフレ",
+            "price": 138,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 201,
+            "name": "ゴディバ監修　濃厚ショコラクイニ―アマン",
+            "price": 178,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 202,
+            "name": "クリームたっぷり生どら焼（レモンマーマレード＆レア",
+            "price": 138,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 203,
+            "name": "塩バニラタルト",
+            "price": 138,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 204,
+            "name": "大きなエクレア",
+            "price": 129,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 205,
+            "name": "レモンクリームクッキーサンド",
+            "price": 138,
+            "category": "チルドデザート",
+            "popular": false
+      },
+      {
+            "id": 206,
+            "name": "朝食りんごヨーグルト",
+            "price": 147,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 207,
+            "name": "北海道ミルクの生杏仁プリン",
+            "price": 147,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 208,
+            "name": "たらみのどっさり　みかんゼリー",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 209,
+            "name": "たらみのどっさり　白桃ゼリー",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 210,
+            "name": "おいしい蒟蒻ゼリー　マスカット味",
+            "price": 147,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 211,
+            "name": "丸七製茶監修　抹茶ときなこのパフェ",
+            "price": 267,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 212,
+            "name": "アジア茶房　マンゴープリン",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 213,
+            "name": "おいしい蒟蒻ゼリー　りんご味",
+            "price": 147,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 214,
+            "name": "塩キャラメルプリンパフェ",
+            "price": 267,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 215,
+            "name": "朝食みかんヨーグルト",
+            "price": 147,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 216,
+            "name": "オイコス高吸収タンパク質マンゴー",
+            "price": 198,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 217,
+            "name": "ビヒダスヨーグルトざく盛りフルーツ",
+            "price": 220,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 218,
+            "name": "新鮮卵のこんがり焼プリン",
+            "price": 168,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 219,
+            "name": "栗原さんちのおすそわけ　カスタードプリン",
+            "price": 168,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 220,
+            "name": "おいしい蒟蒻ゼリー　ぶどう味",
+            "price": 147,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 221,
+            "name": "おいしい蒟蒻ゼリー　みかん味",
+            "price": 147,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 222,
+            "name": "絹ごしプリン",
+            "price": 162,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 223,
+            "name": "オイコス高吸収タンパク質ブルーベリー",
+            "price": 198,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 224,
+            "name": "オイコス高吸収タンパク質プレーン加糖",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 225,
+            "name": "オイコス高吸収タンパク質レモン＆ハニー",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 226,
+            "name": "たらみのどっさり　ピンクフルーツソーダゼリー",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 227,
+            "name": "オイコス高吸収タンパク質ストロベリー",
+            "price": 198,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 228,
+            "name": "アジア茶房濃厚とろける杏仁豆腐",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 229,
+            "name": "栗原さんちのおすそわけ　パンナコッタ",
+            "price": 178,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 230,
+            "name": "たらみのどっさり　マスカット＆ナタデココゼリー",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 231,
+            "name": "アサイーボウルゼリー",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 232,
+            "name": "アジア茶房　黒ごまプリン",
+            "price": 187,
+            "category": "チルドデザート（カップ）",
+            "popular": false
+      },
+      {
+            "id": 233,
+            "name": "ジョージア　ブラック",
+            "price": 178,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 234,
+            "name": "ジョージア深煎りラテ無糖",
+            "price": 187,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 235,
+            "name": "紅茶花伝無糖アールグレイアイスティー",
+            "price": 158,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 236,
+            "name": "綾鷹",
+            "price": 133,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 237,
+            "name": "いろはす　天然水",
+            "price": 115,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 238,
+            "name": "綾鷹　濃い抹茶ラテ",
+            "price": 187,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 239,
+            "name": "ジョージア　カフェラテ",
+            "price": 178,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 240,
+            "name": "紅茶花伝厳選しぼりのアップルティー",
+            "price": 178,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 241,
+            "name": "綾鷹　濃いほうじ茶",
+            "price": 133,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 242,
+            "name": "綾鷹（ペコらく）",
+            "price": 278,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 243,
+            "name": "いろはす　天然水",
+            "price": 187,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 244,
+            "name": "やかんの麦茶",
+            "price": 133,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 245,
+            "name": "午後の紅茶　おいしい無糖　ミルクティー",
+            "price": 168,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 246,
+            "name": "あなたのジャスミン茶",
+            "price": 128,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 247,
+            "name": "クリスタルガイザー",
+            "price": 118,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 248,
+            "name": "タリーズエスプレッソ",
+            "price": 208,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 249,
+            "name": "タリーズハニーミルクラテ",
+            "price": 208,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 250,
+            "name": "タリーズココアラテ",
+            "price": 208,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 251,
+            "name": "午後の紅茶　おいしい無糖",
+            "price": 168,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 252,
+            "name": "キレートレモン",
+            "price": 168,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 253,
+            "name": "リラックスジャスミンティー",
+            "price": 147,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 254,
+            "name": "午後の紅茶　レモンティー",
+            "price": 168,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 255,
+            "name": "あなたのほうじ茶",
+            "price": 128,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 256,
+            "name": "キレートレモンクエン酸",
+            "price": 187,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 257,
+            "name": "健康ミネラルむぎ茶",
+            "price": 268,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 258,
+            "name": "キレートレモンＭＵＫＵＭＩ",
+            "price": 208,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 259,
+            "name": "スコール　ホワイト　　　　　　　　ペット",
+            "price": 168,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 260,
+            "name": "伊藤園　冷梅Ｃｏｏｌ＆Ｒｅｆｒｅｓｈ　Ｐ",
+            "price": 178,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 261,
+            "name": "ポッカサッポロ　キレートレモンＷレモンＰ",
+            "price": 187,
+            "category": "ペットドリンク",
+            "popular": false
+      },
+      {
+            "id": 262,
+            "name": "濃厚チョコブラウニー",
+            "price": 147,
+            "category": "菓子カシ",
+            "popular": true
+      },
+      {
+            "id": 263,
+            "name": "かむかむレモン",
+            "price": 153,
+            "category": "菓子カシ",
+            "popular": true
+      },
+      {
+            "id": 264,
+            "name": "マロッシュグレープソーダ味",
+            "price": 165,
+            "category": "菓子カシ",
+            "popular": true
+      },
+      {
+            "id": 265,
+            "name": "Ｊａｇａｂｅｅバターしょうゆ味",
+            "price": 164,
+            "category": "菓子カシ",
+            "popular": true
+      },
+      {
+            "id": 266,
+            "name": "おしゃぶり男梅シート",
+            "price": 132,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 267,
+            "name": "ひとくちルマンド",
+            "price": 176,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 268,
+            "name": "ひとくちラングレイス",
+            "price": 176,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 269,
+            "name": "濃厚チョコブラウニーリッチミルク",
+            "price": 147,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 270,
+            "name": "ガルボガトーショコラ抹茶仕立てポケットパック",
+            "price": 185,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 271,
+            "name": "ブラックサンダーひとくちサイズパウチ",
+            "price": 205,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 272,
+            "name": "いちごのサンダーひとくちサイズパウチ",
+            "price": 205,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 273,
+            "name": "アルフォートミニチョコレートバニラホワイト",
+            "price": 192,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 274,
+            "name": "トッポ",
+            "price": 214,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 275,
+            "name": "たけのこの里",
+            "price": 278,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 276,
+            "name": "マカダミアチョコレート",
+            "price": 307,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 277,
+            "name": "健康のど飴たたかうマヌカハニー",
+            "price": 141,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 278,
+            "name": "大粒ラムネ",
+            "price": 133,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 279,
+            "name": "ミンティアブリーズ　シャイニーピンク",
+            "price": 235,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 280,
+            "name": "ミンティアブリーズ　フレッシュグレープ",
+            "price": 235,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 281,
+            "name": "ピュレグミ春空ピングレソーダ",
+            "price": 160,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 282,
+            "name": "シンサワーズグミ　グレープ味",
+            "price": 164,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 283,
+            "name": "男梅グミ",
+            "price": 168,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 284,
+            "name": "忍者めし　巨峰",
+            "price": 138,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 285,
+            "name": "カントリーマアムミニ　バニラ",
+            "price": 124,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 286,
+            "name": "プチポテトうすしお味",
+            "price": 85,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 287,
+            "name": "プチポテトコンソメ味",
+            "price": 85,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 288,
+            "name": "プチ抹茶ラングドシャ",
+            "price": 85,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 289,
+            "name": "じゃがりこサラダ",
+            "price": 196,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 290,
+            "name": "じゃがりこチーズ",
+            "price": 199,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 291,
+            "name": "素材がおいしいさつまいも",
+            "price": 158,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 292,
+            "name": "チップスターＳうすしお",
+            "price": 142,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 293,
+            "name": "チップスターＳコンソメ",
+            "price": 142,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 294,
+            "name": "ビスコミニパック",
+            "price": 60,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 295,
+            "name": "ブラックサンダー",
+            "price": 44,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 296,
+            "name": "メンタルバランスチョコレートＧＡＢＡ＜ミルク＞スタ",
+            "price": 300,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 297,
+            "name": "クランキーポップジョイ",
+            "price": 184,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 298,
+            "name": "かむかむシャインマスカット",
+            "price": 153,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 299,
+            "name": "スッパイ大作戦パイナップル味＆ライチ味",
+            "price": 140,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 300,
+            "name": "ピュレグミ　レモン",
+            "price": 160,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 301,
+            "name": "ピュレグミマスカット",
+            "price": 160,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 302,
+            "name": "ひとくちホワイトロリータ",
+            "price": 176,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 303,
+            "name": "ガルボチョコポケットパック",
+            "price": 185,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 304,
+            "name": "ガルボほろにがブラックポケットパック",
+            "price": 185,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 305,
+            "name": "ガルボチョコパウチ",
+            "price": 285,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 306,
+            "name": "アルフォートミニチョコレートストロベリー",
+            "price": 192,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 307,
+            "name": "アルフォートミニチョコレートショコラサブレ",
+            "price": 192,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 308,
+            "name": "ピュレグミグレープ",
+            "price": 160,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 309,
+            "name": "しゃりｉｎグミ　ソーダ",
+            "price": 164,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 310,
+            "name": "ペタグーグミ　グレープ味",
+            "price": 164,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 311,
+            "name": "ペタグーグミ　ソーダ味",
+            "price": 164,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 312,
+            "name": "忍者めし鋼　金剛石　ピーチ味",
+            "price": 156,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 313,
+            "name": "激シゲキックス　極刺激ソーダ",
+            "price": 123,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 314,
+            "name": "シゲキックス　グレープ",
+            "price": 123,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 315,
+            "name": "プチチョコチップ",
+            "price": 85,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 316,
+            "name": "じゃがりこたらこバター",
+            "price": 196,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 317,
+            "name": "カルくカムこんぶ",
+            "price": 164,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 318,
+            "name": "梅カム昆布しそ梅味",
+            "price": 164,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 319,
+            "name": "男梅ほし梅",
+            "price": 205,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 320,
+            "name": "ねりり　梅ねり",
+            "price": 154,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 321,
+            "name": "しっとり甘い干し芋",
+            "price": 173,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 322,
+            "name": "ビスコミニパック　いちご",
+            "price": 60,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 323,
+            "name": "リトルパックンチョ　チョコ",
+            "price": 76,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 324,
+            "name": "ブラックサンダー至福のバター",
+            "price": 61,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 325,
+            "name": "カントリーマアム　バニラ＆ココア",
+            "price": 488,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 326,
+            "name": "いちごのサンダーミニバー",
+            "price": 307,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 327,
+            "name": "１本満足バーシリアルチョコ",
+            "price": 153,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 328,
+            "name": "カチカチちびカメカメサワーズフルーツアソート",
+            "price": 225,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 329,
+            "name": "オレオ　ビッツサンド　バニラ",
+            "price": 173,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 330,
+            "name": "プチうましおプレッツェル",
+            "price": 85,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 331,
+            "name": "ポテトチップスコンソメパンチ",
+            "price": 171,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 332,
+            "name": "メンタルバランスチョコレートＧＡＢＡ＜ビター＞スタ",
+            "price": 300,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 333,
+            "name": "ＬＩＢＥＲＡ＜ミルク＞",
+            "price": 288,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 334,
+            "name": "クリーム玄米ブランブルーベリー",
+            "price": 184,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 335,
+            "name": "クリーム玄米ブランカカオ",
+            "price": 184,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 336,
+            "name": "冷塩クランチキャンディ",
+            "price": 235,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 337,
+            "name": "ぷっちょスティックサワー　沖縄パイン味",
+            "price": 120,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 338,
+            "name": "激Ｘシゲキックス　Ｘピオーネ味",
+            "price": 120,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 339,
+            "name": "忍者めし鋼　金剛石　ゴールデンパイン味",
+            "price": 150,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 340,
+            "name": "６０Ｇ夏ポテト対馬の浜御塩味",
+            "price": 198,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 341,
+            "name": "６０Ｇ夏ポテト紀州の南高梅味",
+            "price": 198,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 342,
+            "name": "サーティワンチョコレート（クッキーアンドクリーム風",
+            "price": 225,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 343,
+            "name": "１０粒ベイク塩クッキーショコラ",
+            "price": 276,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 344,
+            "name": "３０Ｇ大粒ラムネ〈ソルティライチ〉",
+            "price": 133,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 345,
+            "name": "チョコチップクッキーミントミニ",
+            "price": 123,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 346,
+            "name": "８４Ｇマスカットのまんま",
+            "price": 182,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 347,
+            "name": "早乙女檸檬の挑戦状",
+            "price": 110,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 348,
+            "name": "６１Ｇさやえんどうしお味",
+            "price": 174,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 349,
+            "name": "３０Ｇ素材がおいしい栗",
+            "price": 186,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 350,
+            "name": "めぐる梅塩キャンディ",
+            "price": 141,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 351,
+            "name": "ＣＯコーヒーバッグ　オリジナルブレンド",
+            "price": 462,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 352,
+            "name": "ＣＯホワイトマシュマロ",
+            "price": 108,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 353,
+            "name": "ＣＯ芋けんぴ",
+            "price": 108,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 354,
+            "name": "ＣＯプレーンビスケット",
+            "price": 108,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 355,
+            "name": "ＣＯ＆マルちゃん　Ｓ　きつねうどん",
+            "price": 170,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 356,
+            "name": "ＣＯあったかおそうめん　あごだし仕立て",
+            "price": 170,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 357,
+            "name": "ＣＯコープヌードルしょうゆ",
+            "price": 149,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 358,
+            "name": "ＣＯコープヌードルトマト＆チーズ味",
+            "price": 149,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 359,
+            "name": "ＣＯコープヌードル柚子しお（鶏と魚介の旨みだし）",
+            "price": 149,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 360,
+            "name": "ＣＯスープ春雨ワンタン",
+            "price": 159,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 361,
+            "name": "ＣＯミルクケーキ",
+            "price": 118,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 362,
+            "name": "ＣＯえび満月",
+            "price": 108,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 363,
+            "name": "ＣＯ牛乳かりんとう白",
+            "price": 108,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 364,
+            "name": "ＣＯそばぼうろ",
+            "price": 108,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 365,
+            "name": "ＣＯひとくちカステラ",
+            "price": 108,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 366,
+            "name": "ＣＯ＆マルちゃん　Ｓ　天ぷらそば",
+            "price": 170,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 367,
+            "name": "ＣＯコープヌードル生姜香る鶏白湯",
+            "price": 149,
+            "category": "菓子カシ",
+            "popular": false
+      },
+      {
+            "id": 368,
+            "name": "マルちゃん正麺　カップ　芳醇醤油",
+            "price": 285,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 369,
+            "name": "ワンタン　しょうゆ味",
+            "price": 145,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 370,
+            "name": "カロリーメイト　メープル味２本入り",
+            "price": 112,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 371,
+            "name": "ヌードルはるさめ　１／３日分の野菜ちゃんぽん味",
+            "price": 247,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 372,
+            "name": "ごつ盛り　ソース焼そば",
+            "price": 203,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 373,
+            "name": "カップヌードル欧風チーズカレー",
+            "price": 255,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 374,
+            "name": "スープＤＥＬＩクラムチャウダー　パスタ入り",
+            "price": 207,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 375,
+            "name": "スープＤＥＬＩたらこクリームスープパスタ豆乳仕立て",
+            "price": 207,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 376,
+            "name": "スープＤＥＬＩポルチーニ香るきのこのクリームスープ",
+            "price": 207,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 377,
+            "name": "スープはるさめ　担担味",
+            "price": 205,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 378,
+            "name": "スープはるさめ　鶏白湯",
+            "price": 205,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 379,
+            "name": "こんがりパン濃厚コーンポタージュ",
+            "price": 203,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 380,
+            "name": "こんがりパン濃厚かぼちゃポタージュ",
+            "price": 203,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 381,
+            "name": "スローバーチョコバナナクッキー",
+            "price": 125,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 382,
+            "name": "カップヌードルトムヤムクンヌードル",
+            "price": 255,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 383,
+            "name": "ごつ盛り　塩焼そば",
+            "price": 203,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 384,
+            "name": "ニュータッチ　名古屋発台湾まぜそば",
+            "price": 200,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 385,
+            "name": "スープＤＥＬＩサーモンとほうれん草のクリームスープ",
+            "price": 207,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 386,
+            "name": "スープはるさめ　わかめと野菜",
+            "price": 205,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 387,
+            "name": "スープはるさめ　柚子ぽん酢味",
+            "price": 205,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 388,
+            "name": "なめらか豆腐すうぷスンドゥブチゲ味",
+            "price": 200,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 389,
+            "name": "カップ料亭の味とん汁",
+            "price": 147,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 390,
+            "name": "ソイジョイ　抹茶＆マカダミア",
+            "price": 128,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 391,
+            "name": "スープＤＥＬＩまるごと１個分完熟トマトのスープパス",
+            "price": 207,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 392,
+            "name": "日清　カップヌードルロブスター完熟トマト",
+            "price": 255,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 393,
+            "name": "丸善　プロフィットササミ香味野菜しょう油",
+            "price": 186,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 394,
+            "name": "丸善　プロフィットササミブラックペッパー",
+            "price": 186,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 395,
+            "name": "丸善　プロフィットササミ　Ｓタンドリー",
+            "price": 186,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 396,
+            "name": "丸善　プロフィットササミ　ゆず塩レモン",
+            "price": 186,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 397,
+            "name": "エースコック　濃い濃いご当地濃厚タンメン",
+            "price": 264,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 398,
+            "name": "エースコック　福福彩菜　海鮮味春雨",
+            "price": 245,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 399,
+            "name": "マルちゃん　マルちゃん正麺　ニボツヨシＣ",
+            "price": 341,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      },
+      {
+            "id": 400,
+            "name": "日清食品　オーベルジーヌ監修　欧風カレー",
+            "price": 357,
+            "category": "スープ・カップ麺メン",
+            "popular": false
+      }
+];
 
     let budget = 0;
     let cart = [];
@@ -748,8 +3104,25 @@
       updateBudgetStatus();
       updateCartCount();
       updateBudgetPreview();
+      createCategoryButtons();
       showMode("popular");
     });
+
+    function getEmoji(product) {
+      const category = product.category || "";
+      const name = product.name || "";
+      if (category.includes("おにぎり") || name.includes("おにぎり") || name.includes("おむすび")) return "🍙";
+      if (category.includes("パン") || name.includes("パン")) return "🥐";
+      if (category.includes("サンド")) return "🥪";
+      if (category.includes("米飯") || name.includes("弁当") || name.includes("丼") || name.includes("カレー")) return "🍱";
+      if (category.includes("麺") || category.includes("カップ麺")) return "🍜";
+      if (category.includes("スープ")) return "🥣";
+      if (category.includes("サラダ")) return "🥗";
+      if (category.includes("飲料") || category.includes("ドリンク")) return "🥤";
+      if (category.includes("デザート") || category.includes("アイス")) return "🍨";
+      if (category.includes("菓子")) return "🍪";
+      return "🛒";
+    }
 
     function updateBudgetPreview() {
       const slider = document.getElementById("budgetSlider");
@@ -761,267 +3134,148 @@
       const slider = document.getElementById("budgetSlider");
       budget = Number(slider.value);
       selectedProduct = null;
-
       updateBudgetStatus();
       showMode("recommend");
       showToast("今日の予算を" + budget + "円に設定しました！");
     }
 
-    function getTotal() {
-      return cart.reduce(function (sum, item) {
-        return sum + item.price;
-      }, 0);
-    }
-
-    function getRemainingBudget() {
-      return budget - getTotal();
-    }
-
-    function isAffordable(product) {
-      if (budget === 0) return true;
-      return product.price <= getRemainingBudget();
-    }
+    function getTotal() { return cart.reduce(function (sum, item) { return sum + item.price; }, 0); }
+    function getRemainingBudget() { return budget - getTotal(); }
+    function isAffordable(product) { if (budget === 0) return true; return product.price <= getRemainingBudget(); }
 
     function sortProductsByAffordable(productList) {
       if (budget === 0) return productList;
-
       return productList.slice().sort(function (a, b) {
         const aAffordable = isAffordable(a);
         const bAffordable = isAffordable(b);
-
-        if (aAffordable === bAffordable) {
-          return a.price - b.price;
-        }
-
+        if (aAffordable === bAffordable) return a.price - b.price;
         return aAffordable ? -1 : 1;
       });
     }
 
     function updateBudgetStatus() {
       const status = document.getElementById("budgetStatus");
-
-      if (budget === 0) {
-        status.textContent = "まだ予算が設定されていません";
-        return;
-      }
-
+      if (budget === 0) { status.textContent = "まだ予算が設定されていません"; return; }
       const total = getTotal();
       const remaining = getRemainingBudget();
-
       if (remaining >= 0) {
-        status.textContent =
-          "今日の予算：" + budget + "円 ／ 現在：" + total + "円 ／ 残り：" + remaining + "円";
+        status.textContent = "今日の予算：" + budget + "円 ／ 現在：" + total + "円 ／ 残り：" + remaining + "円";
       } else {
-        status.textContent =
-          "今日の予算：" + budget + "円 ／ 現在：" + total + "円 ／ " + Math.abs(remaining) + "円オーバー";
+        status.textContent = "今日の予算：" + budget + "円 ／ 現在：" + total + "円 ／ " + Math.abs(remaining) + "円オーバー";
       }
+    }
+
+    function createCategoryButtons() {
+      const area = document.getElementById("categoryButtons");
+      const categories = Array.from(new Set(products.map(function (product) { return product.category; })));
+      area.innerHTML = '<button onclick="showCategory(\'all\')">すべて</button>';
+      categories.forEach(function (category) {
+        const button = document.createElement("button");
+        button.textContent = category;
+        button.onclick = function () { showCategory(category); };
+        area.appendChild(button);
+      });
     }
 
     function showMode(modeName) {
       currentMode = modeName;
       selectedProduct = null;
-
       const modes = ["recommend", "category", "popular"];
-
       modes.forEach(function (mode) {
         document.getElementById(mode + "Mode").classList.remove("active");
         document.getElementById(mode + "ModeButton").classList.remove("active");
       });
-
       document.getElementById(modeName + "Mode").classList.add("active");
       document.getElementById(modeName + "ModeButton").classList.add("active");
-
-      if (modeName === "recommend") {
-        showRecommendations(currentRecommendCount);
-      }
-
-      if (modeName === "category") {
-        showCategory(currentCategory);
-      }
-
-      if (modeName === "popular") {
-        displayPopularProducts();
-      }
+      if (modeName === "recommend") showRecommendations(currentRecommendCount);
+      if (modeName === "category") showCategory(currentCategory);
+      if (modeName === "popular") displayPopularProducts();
     }
 
     function displayPopularProducts() {
       const area = document.getElementById("popularProducts");
       area.innerHTML = "";
-
-      const popularItems = products.filter(function (product) {
-        return product.popular === true;
-      });
-
+      const popularItems = products.filter(function (product) { return product.popular === true; });
       const sortedItems = sortProductsByAffordable(popularItems);
-
-      sortedItems.forEach(function (product) {
-        area.appendChild(createProductCard(product, true));
-      });
+      sortedItems.forEach(function (product) { area.appendChild(createProductCard(product, true)); });
     }
 
     function showCategory(categoryName) {
       currentCategory = categoryName;
       const area = document.getElementById("categoryProducts");
       area.innerHTML = "";
-
       let categoryItems;
-
-      if (categoryName === "all") {
-        categoryItems = products;
-      } else {
-        categoryItems = products.filter(function (product) {
-          return product.category === categoryName;
-        });
-      }
-
+      if (categoryName === "all") categoryItems = products;
+      else categoryItems = products.filter(function (product) { return product.category === categoryName; });
       const sortedItems = sortProductsByAffordable(categoryItems);
-
-      sortedItems.forEach(function (product) {
-        area.appendChild(createProductCard(product, false));
-      });
+      sortedItems.forEach(function (product) { area.appendChild(createProductCard(product, false)); });
     }
 
     function showRecommendations(count) {
       currentRecommendCount = count;
-
       const area = document.getElementById("recommendProducts");
       area.innerHTML = "";
-
-      if (budget === 0) {
-        area.innerHTML = "<p class='step-note'>予算を決めると、残り予算に合わせたおすすめ商品が表示されます。</p>";
-        return;
-      }
-
+      if (budget === 0) { area.innerHTML = "<p class='step-note'>予算を決めると、残り予算に合わせたおすすめ商品が表示されます。</p>"; return; }
       const remaining = getRemainingBudget();
-
-      if (remaining <= 0) {
-        area.innerHTML = "<p class='step-note'>残り予算がありません。買い物かごを確認してください。</p>";
-        return;
-      }
-
-      const cartIds = cart.map(function (item) {
-        return item.id;
-      });
-
-      const availableProducts = products.filter(function (product) {
-        return !cartIds.includes(product.id) && product.price <= remaining;
-      });
-
+      if (remaining <= 0) { area.innerHTML = "<p class='step-note'>残り予算がありません。買い物かごを確認してください。</p>"; return; }
+      const cartIds = cart.map(function (item) { return item.id; });
+      const availableProducts = products.filter(function (product) { return !cartIds.includes(product.id) && product.price <= remaining; });
       let recommendations = [];
-
       if (count === 1) {
-        recommendations = availableProducts
-          .sort(function (a, b) {
-            return b.price - a.price;
-          })
-          .slice(0, 4);
+        recommendations = availableProducts.sort(function (a, b) { return b.price - a.price; }).slice(0, 4);
       } else {
-        recommendations = availableProducts
-          .sort(function (a, b) {
-            return a.price - b.price;
-          })
-          .slice(0, 6);
+        recommendations = availableProducts.sort(function (a, b) { return a.price - b.price; }).slice(0, 6);
       }
-
-      if (recommendations.length === 0) {
-        area.innerHTML = "<p class='step-note'>残り予算で買える商品がありません。</p>";
-        return;
-      }
-
-      recommendations.forEach(function (product) {
-        area.appendChild(createProductCard(product, false));
-      });
+      if (recommendations.length === 0) { area.innerHTML = "<p class='step-note'>残り予算で買える商品がありません。</p>"; return; }
+      recommendations.forEach(function (product) { area.appendChild(createProductCard(product, false)); });
     }
 
     function createProductCard(product, isPopular) {
       const card = document.createElement("div");
-
       card.className = "product-card";
       if (isPopular) card.classList.add("popular");
       if (!isAffordable(product)) card.classList.add("unaffordable");
       if (selectedProduct && selectedProduct.id === product.id) card.classList.add("selected");
-
-      card.onclick = function () {
-        selectProduct(product.id);
-      };
+      card.onclick = function () { selectProduct(product.id); };
 
       let detailHtml = "";
-
       if (selectedProduct && selectedProduct.id === product.id) {
         let detailContent = "";
-
         if (budget === 0) {
-          detailContent =
-            '<div class="detail-row"><span>価格</span><strong>' + product.price + '円</strong></div>' +
-            '<div class="detail-row"><span>予算</span><strong>未設定</strong></div>';
+          detailContent = '<div class="detail-row"><span>価格</span><strong>' + product.price + '円</strong></div>' +
+                          '<div class="detail-row"><span>予算</span><strong>未設定</strong></div>';
         } else {
           const remainingNow = getRemainingBudget();
           const afterRemaining = remainingNow - product.price;
-
-          let budgetText = "";
-
-          if (afterRemaining >= 0) {
-            budgetText = '<span class="after-budget">' + afterRemaining + '円</span>';
-          } else {
-            budgetText = '<span class="after-budget">' + Math.abs(afterRemaining) + '円オーバー</span>';
-          }
-
-          detailContent =
-            '<div class="detail-row"><span>現在の残金</span><strong>' + remainingNow + '円</strong></div>' +
-            '<div class="detail-row"><span>追加後の残金</span><strong>' + budgetText + '</strong></div>';
+          let budgetText = afterRemaining >= 0 ? '<span class="after-budget">' + afterRemaining + '円</span>' : '<span class="after-budget">' + Math.abs(afterRemaining) + '円オーバー</span>';
+          detailContent = '<div class="detail-row"><span>現在の残金</span><strong>' + remainingNow + '円</strong></div>' +
+                          '<div class="detail-row"><span>追加後の残金</span><strong>' + budgetText + '</strong></div>';
         }
-
-        detailHtml =
-          '<div class="selected-detail">' +
-            detailContent +
-            '<button class="add-button" onclick="addProductToCart(event, ' + product.id + ')">カゴに追加</button>' +
-          '</div>';
+        detailHtml = '<div class="selected-detail">' + detailContent + '<button class="add-button" onclick="addProductToCart(event, ' + product.id + ')">カゴに追加</button></div>';
       }
 
-      card.innerHTML =
-        '<div class="card-main">' +
-          '<div class="emoji">' + product.emoji + '</div>' +
-          '<h3>' + product.name + '</h3>' +
-          '<div class="category-label">' + product.category + '</div>' +
-          '<div class="price">' + product.price + '円</div>' +
-        '</div>' +
-        detailHtml;
-
+      card.innerHTML = '<div class="card-main">' +
+        '<div class="emoji">' + getEmoji(product) + '</div>' +
+        '<h3>' + product.name + '</h3>' +
+        '<div class="category-label">' + product.category + '</div>' +
+        '<div class="price">' + product.price + '円</div>' +
+        '</div>' + detailHtml;
       return card;
     }
 
     function selectProduct(productId) {
-      if (selectedProduct && selectedProduct.id === productId) {
-        selectedProduct = null;
-      } else {
-        selectedProduct = products.find(function (item) {
-          return item.id === productId;
-        });
-      }
-
+      if (selectedProduct && selectedProduct.id === productId) selectedProduct = null;
+      else selectedProduct = products.find(function (item) { return item.id === productId; });
       refreshCurrentProductDisplay();
     }
 
     function addProductToCart(event, productId) {
       event.stopPropagation();
-
-      const product = products.find(function (item) {
-        return item.id === productId;
-      });
-
-      if (budget === 0) {
-        alert("先に今日の予算を決定してください。");
-        return;
-      }
-
-      if (getTotal() + product.price > budget) {
-        alert("残り予算が足りないため、この商品はカゴに追加できません。");
-        return;
-      }
-
+      const product = products.find(function (item) { return item.id === productId; });
+      if (budget === 0) { alert("先に今日の予算を決定してください。"); return; }
+      if (getTotal() + product.price > budget) { alert("残り予算が足りないため、この商品はカゴに追加できません。"); return; }
       cart.push(product);
       selectedProduct = null;
-
       updateBudgetStatus();
       updateCartCount();
       refreshCurrentProductDisplay();
@@ -1038,63 +3292,33 @@
       const toast = document.getElementById("toast");
       toast.textContent = message;
       toast.classList.add("show");
-
-      setTimeout(function () {
-        toast.classList.remove("show");
-      }, 1500);
+      setTimeout(function () { toast.classList.remove("show"); }, 1500);
     }
 
-    function updateCartCount() {
-      document.getElementById("cartCount").textContent = cart.length;
-    }
-
-    function showCartPage() {
-      document.getElementById("mainPage").style.display = "none";
-      document.getElementById("cartPage").style.display = "block";
-      displayCartItems();
-    }
-
-    function showMainPage() {
-      document.getElementById("cartPage").style.display = "none";
-      document.getElementById("mainPage").style.display = "block";
-    }
+    function updateCartCount() { document.getElementById("cartCount").textContent = cart.length; }
+    function showCartPage() { document.getElementById("mainPage").style.display = "none"; document.getElementById("cartPage").style.display = "block"; displayCartItems(); }
+    function showMainPage() { document.getElementById("cartPage").style.display = "none"; document.getElementById("mainPage").style.display = "block"; }
 
     function displayCartItems() {
       const area = document.getElementById("cartItems");
       const totalArea = document.getElementById("totalPrice");
       const warningArea = document.getElementById("budgetWarning");
-
       area.innerHTML = "";
-
-      if (cart.length === 0) {
-        area.innerHTML = "<p class='step-note'>まだ商品が選ばれていません。</p>";
-      } else {
+      if (cart.length === 0) area.innerHTML = "<p class='step-note'>まだ商品が選ばれていません。</p>";
+      else {
         cart.forEach(function (item, index) {
           const div = document.createElement("div");
           div.className = "cart-item";
-
-          div.innerHTML =
-            '<span>' + item.emoji + ' ' + item.name + '</span>' +
-            '<span>' + item.price + '円' +
-            '<button onclick="removeFromCart(' + index + ')">削除</button>' +
-            '</span>';
-
+          div.innerHTML = '<span>' + getEmoji(item) + ' ' + item.name + '</span>' + '<span>' + item.price + '円' + '<button onclick="removeFromCart(' + index + ')">削除</button></span>';
           area.appendChild(div);
         });
       }
-
       const total = getTotal();
       const remaining = budget - total;
-
       totalArea.textContent = "合計：" + total + "円";
-
-      if (budget === 0) {
-        warningArea.textContent = "予算が設定されていません。";
-      } else if (remaining >= 0) {
-        warningArea.textContent = "残り予算：" + remaining + "円";
-      } else {
-        warningArea.textContent = Math.abs(remaining) + "円オーバーしています。";
-      }
+      if (budget === 0) warningArea.textContent = "予算が設定されていません。";
+      else if (remaining >= 0) warningArea.textContent = "残り予算：" + remaining + "円";
+      else warningArea.textContent = Math.abs(remaining) + "円オーバーしています。";
     }
 
     function removeFromCart(index) {
