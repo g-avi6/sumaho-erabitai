@@ -575,59 +575,317 @@
       }
     }
   
-/* ===== 戦隊デザイン版：機能はそのまま、見た目だけ変更 ===== */
+/* ===== デザインだけ変更版：画像貼り付けなし・機能は元コードのまま ===== */
 :root {
   --main: #0757c8;
+  --main2: #1688ff;
+  --deep: #071a43;
   --sub: #ef3128;
   --accent: #ffc400;
-  --soft: #eef7ff;
-  --cream: #fff8e8;
+  --green: #16a04b;
+  --soft: #eef8ff;
+  --cream: #fff7df;
   --line: #d5e4f7;
   --text: #071a43;
   --muted: #5d6b86;
 }
 
 body {
-  background:
-    radial-gradient(circle at 0% 0%, rgba(255,196,0,.24), transparent 24%),
-    radial-gradient(circle at 100% 10%, rgba(21,136,255,.18), transparent 24%),
-    linear-gradient(180deg, #ffffff 0%, #eef9ff 62%, #ffffff 100%);
-  color: var(--text);
   padding-top: 0;
-  padding-bottom: 190px;
+  padding-bottom: 116px;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255,196,0,.25), transparent 24%),
+    radial-gradient(circle at 100% 10%, rgba(22,136,255,.20), transparent 25%),
+    linear-gradient(180deg, #ffffff 0%, #eef9ff 60%, #ffffff 100%);
 }
 
 .status {
   position: sticky;
   top: 0;
+  z-index: 1500;
+  padding: 9px 12px;
   background: rgba(255,255,255,.94);
-  color: var(--text);
+  backdrop-filter: blur(14px);
+  color: var(--deep);
   border-bottom: 1px solid rgba(7,87,200,.12);
   box-shadow: 0 4px 18px rgba(4,48,118,.08);
-  z-index: 1500;
+  font-size: 13px;
+  font-weight: 900;
 }
 
-.hero-top {
+.sentai-hero {
   max-width: 1000px;
   margin: 8px auto 0;
-  border-radius: 0 0 28px 28px;
+  padding: 0;
+  border-radius: 0 0 30px 30px;
   overflow: hidden;
-  background: #fff;
+  color: var(--deep);
+  background:
+    radial-gradient(circle at 14% 22%, rgba(255,255,255,.85), transparent 18%),
+    radial-gradient(circle at 88% 18%, rgba(255,196,0,.38), transparent 18%),
+    linear-gradient(135deg, #eaf7ff 0%, #ffffff 45%, #d9f1ff 100%);
   border: 2px solid rgba(7,87,200,.10);
   box-shadow: 0 14px 34px rgba(4,48,118,.16);
+  text-align: initial;
+  position: relative;
 }
 
-.hero-top-image {
-  width: 100%;
-  display: block;
+.sentai-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(125deg, transparent 0 42%, rgba(7,87,200,.08) 42% 48%, transparent 48% 100%),
+    linear-gradient(35deg, transparent 0 62%, rgba(239,49,40,.08) 62% 68%, transparent 68% 100%);
+  pointer-events: none;
 }
+
+.hero-nav {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 2px;
+}
+
+.hero-menu,
+.hero-cart-mini {
+  width: 50px;
+  height: 50px;
+  border: 0;
+  border-radius: 16px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 8px 20px rgba(4,48,118,.12);
+}
+
+.hero-menu {
+  display: grid;
+  place-items: center;
+}
+
+.hero-menu span {
+  display: block;
+  width: 24px;
+  height: 4px;
+  margin: 2px 0;
+  border-radius: 999px;
+  background: var(--main);
+}
+
+.hero-cart-mini {
+  position: relative;
+  display: grid;
+  place-items: center;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.hero-cart-mini::after {
+  content: attr(data-count);
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--sub);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  border: 2px solid #fff;
+}
+
+.sentai-logo {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(30px, 8vw, 62px);
+  line-height: 1;
+  letter-spacing: .01em;
+  font-weight: 900;
+  color: var(--main);
+  text-shadow:
+    2px 2px 0 #fff,
+    -2px 2px 0 #fff,
+    0 5px 0 var(--deep),
+    0 11px 18px rgba(7,26,67,.20);
+}
+
+.logo-yellow { color: var(--accent); }
+.logo-blue { color: #4ba9ff; }
+.logo-red { color: var(--sub); }
+
+.hero-stage {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  align-items: end;
+  gap: 8px;
+  padding: 6px 22px 18px;
+  min-height: 270px;
+}
+
+.hero-copy {
+  align-self: center;
+  padding: 18px 0 14px;
+}
+
+.hero-kicker {
+  display: inline-flex;
+  margin: 0 0 10px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--deep);
+  font-size: 14px;
+  font-weight: 900;
+  box-shadow: 0 8px 18px rgba(255,196,0,.24);
+}
+
+.hero-copy h2 {
+  margin: 0;
+  color: var(--deep);
+  font-size: clamp(30px, 7vw, 56px);
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: -.02em;
+}
+
+.hero-copy h2::before {
+  content: none !important;
+}
+
+.hero-copy h2 span {
+  color: var(--sub);
+  text-shadow: 2px 2px 0 #fff;
+}
+
+.hero-desc {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.7;
+}
+
+.ranger-team {
+  position: relative;
+  height: 245px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.ranger {
+  position: relative;
+  width: 88px;
+  height: 182px;
+  filter: drop-shadow(0 12px 16px rgba(7,26,67,.18));
+}
+
+.main-ranger {
+  width: 106px;
+  height: 215px;
+  z-index: 3;
+}
+
+.ranger .helmet {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 74px;
+  height: 62px;
+  transform: translateX(-50%);
+  border-radius: 50% 50% 45% 45%;
+  background: var(--ranger-color);
+  border: 4px solid #fff;
+  box-shadow: inset 0 -8px 0 rgba(0,0,0,.12);
+}
+
+.main-ranger .helmet {
+  width: 90px;
+  height: 76px;
+}
+
+.ranger .helmet::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  width: 44px;
+  height: 18px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #101a31;
+  border: 3px solid #fff;
+}
+
+.main-ranger .helmet::before {
+  top: 24px;
+  width: 54px;
+  height: 22px;
+}
+
+.ranger .body {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 68px;
+  height: 126px;
+  transform: translateX(-50%);
+  border-radius: 30px 30px 18px 18px;
+  background:
+    linear-gradient(135deg, transparent 0 42%, rgba(255,255,255,.92) 42% 50%, transparent 50% 100%),
+    var(--ranger-color);
+  border: 4px solid #fff;
+  box-shadow: inset 0 -10px 0 rgba(0,0,0,.10);
+}
+
+.main-ranger .body {
+  width: 84px;
+  height: 150px;
+}
+
+.ranger .body::before,
+.ranger .body::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  width: 26px;
+  height: 78px;
+  border-radius: 999px;
+  background: var(--ranger-color);
+  border: 4px solid #fff;
+}
+
+.ranger .body::before {
+  left: -28px;
+  transform: rotate(18deg);
+}
+
+.ranger .body::after {
+  right: -28px;
+  transform: rotate(-18deg);
+}
+
+.ranger-red { --ranger-color: #ef3128; transform: rotate(-8deg) translateY(8px); }
+.ranger-blue { --ranger-color: #0f6eea; }
+.ranger-yellow { --ranger-color: #ffc400; transform: rotate(8deg) translateY(8px); }
 
 .hero-feature-bar {
+  position: relative;
+  z-index: 3;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   padding: 10px;
-  background: linear-gradient(90deg, #0757c8, #07347e);
+  background: linear-gradient(90deg, var(--main), #07347e);
 }
 
 .hero-feature-bar div {
@@ -904,15 +1162,13 @@ input[type="range"] {
   background: var(--accent);
 }
 
-.fixed-actions {
+.fixed-cart-area {
   position: fixed;
   left: 50%;
   bottom: 10px;
   transform: translateX(-50%);
   z-index: 1300;
   width: min(1000px, calc(100% - 18px));
-  display: grid;
-  gap: 9px;
 }
 
 .cart-button {
@@ -994,34 +1250,6 @@ input[type="range"] {
   line-height: 24px;
 }
 
-.decision-fixed-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.fixed-decide-button,
-.fixed-go-button {
-  border: 0;
-  border-radius: 18px;
-  min-height: 62px;
-  font-weight: 900;
-  font-size: clamp(20px, 5vw, 30px);
-  cursor: pointer;
-  box-shadow: 0 8px 22px rgba(4,48,118,.10);
-}
-
-.fixed-decide-button {
-  background: #fff;
-  color: var(--main);
-  border: 3px solid var(--main);
-}
-
-.fixed-go-button {
-  background: linear-gradient(135deg, var(--sub), #ff6a35);
-  color: #fff;
-}
-
 .go-title {
   color: var(--sub);
 }
@@ -1036,22 +1264,98 @@ input[type="range"] {
 }
 
 .toast {
-  bottom: 198px;
+  bottom: 124px;
 }
 
 @media (max-width: 760px) {
   body {
-    padding-bottom: 202px;
+    padding-bottom: 122px;
   }
 
   .status {
     font-size: 12px;
   }
 
-  .hero-top {
+  .sentai-hero {
     max-width: calc(100% - 14px);
     margin-top: 6px;
     border-radius: 0 0 24px 24px;
+  }
+
+  .hero-nav {
+    grid-template-columns: 44px 1fr 44px;
+    padding: 12px 10px 0;
+  }
+
+  .hero-menu,
+  .hero-cart-mini {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+  }
+
+  .sentai-logo {
+    font-size: 31px;
+    text-shadow:
+      1.5px 1.5px 0 #fff,
+      -1.5px 1.5px 0 #fff,
+      0 4px 0 var(--deep),
+      0 8px 14px rgba(7,26,67,.18);
+  }
+
+  .hero-stage {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 8px 14px 16px;
+    gap: 0;
+  }
+
+  .hero-copy {
+    text-align: center;
+    padding: 10px 0 0;
+  }
+
+  .hero-copy h2 {
+    font-size: 34px;
+  }
+
+  .hero-desc {
+    font-size: 13px;
+  }
+
+  .ranger-team {
+    height: 210px;
+    margin-top: -4px;
+  }
+
+  .ranger {
+    width: 74px;
+    height: 154px;
+  }
+
+  .main-ranger {
+    width: 90px;
+    height: 184px;
+  }
+
+  .ranger .helmet {
+    width: 62px;
+    height: 52px;
+  }
+
+  .main-ranger .helmet {
+    width: 76px;
+    height: 64px;
+  }
+
+  .ranger .body {
+    width: 58px;
+    height: 106px;
+  }
+
+  .main-ranger .body {
+    width: 72px;
+    height: 130px;
   }
 
   .hero-feature-bar {
@@ -1111,42 +1415,8 @@ input[type="range"] {
     font-size: 13px;
   }
 
-  .fixed-decide-button,
-  .fixed-go-button {
-    min-height: 58px;
-    font-size: 20px;
-  }
-
   .toast {
-    bottom: 206px;
-  }
-}
-
-  
-/* ===== 下部固定エリア：カートボタンだけ表示 ===== */
-body {
-  padding-bottom: 112px;
-}
-
-.fixed-actions {
-  gap: 0;
-}
-
-.decision-fixed-row {
-  display: none !important;
-}
-
-.toast {
-  bottom: 118px;
-}
-
-@media (max-width: 760px) {
-  body {
-    padding-bottom: 118px;
-  }
-
-  .toast {
-    bottom: 126px;
+    bottom: 132px;
   }
 }
 
@@ -1156,14 +1426,44 @@ body {
 <body>
   <div class="status" id="budgetStatus">まだ予算が設定されていません</div>
 
-  <section class="hero-top">
-    <img src="hero-rangers-fixed.png" alt="スマホで選び隊 メインビジュアル" class="hero-top-image">
+  <header class="sentai-hero">
+    <div class="hero-nav">
+      <div class="hero-menu" aria-hidden="true"><span></span><span></span><span></span></div>
+      <h1 class="sentai-logo">
+        <span class="logo-yellow">スマホで</span><span class="logo-blue">選び</span><span class="logo-red">隊</span>
+      </h1>
+      <button class="hero-cart-mini" type="button" onclick="showCartPage()" aria-label="カートを見る">🛒</button>
+    </div>
+
+    <div class="hero-stage">
+      <div class="hero-copy">
+        <p class="hero-kicker">予算内で、迷わず、すぐに選べる！</p>
+        <h2>生協の買い物を<br><span>スマホで作戦会議</span></h2>
+        <p class="hero-desc">予算を決めて、商品を選んで、あとは生協へGO。</p>
+      </div>
+
+      <div class="ranger-team" aria-hidden="true">
+        <div class="ranger ranger-red">
+          <div class="helmet"></div>
+          <div class="body"></div>
+        </div>
+        <div class="ranger ranger-blue main-ranger">
+          <div class="helmet"></div>
+          <div class="body"></div>
+        </div>
+        <div class="ranger ranger-yellow">
+          <div class="helmet"></div>
+          <div class="body"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="hero-feature-bar">
       <div>⭐ 生協基準で安心</div>
       <div>⏰ 選ぶ時間を短縮</div>
       <div>👍 人気商品から提案</div>
     </div>
-  </section>
+  </header>
 
   <main id="mainPage">
     <section>
@@ -1273,7 +1573,7 @@ body {
     </section>
   </main>
 
-  <div class="fixed-actions">
+  <div class="fixed-cart-area">
     <button class="cart-button" onclick="showCartPage()">
       <span class="cart-icon-wrap">🛒<span class="cart-count" id="cartCount">0</span></span>
       <span class="cart-text">
@@ -1281,7 +1581,7 @@ body {
         <small id="cartSummaryText">まだ商品が選ばれていません</small>
       </span>
       <span class="cart-total-fixed" id="cartTotalFixed">合計 0円</span>
-      <span class="cart-view-text">カートを見る ＞</span>
+      <span class="cart-view-text">見る ＞</span>
     </button>
   </div>
   <div class="toast" id="toast"></div>
@@ -4299,6 +4599,7 @@ body {
 
       const cartSummaryText = document.getElementById("cartSummaryText");
       const cartTotalFixed = document.getElementById("cartTotalFixed");
+      const heroCartMini = document.querySelector(".hero-cart-mini");
 
       if (cartSummaryText) {
         if (cart.length === 0) {
@@ -4313,6 +4614,10 @@ body {
       if (cartTotalFixed) {
         cartTotalFixed.textContent = "合計 " + getTotal() + "円";
       }
+
+      if (heroCartMini) {
+        heroCartMini.setAttribute("data-count", cart.length);
+      }
     }
     function hideAllPages() {
       document.getElementById("mainPage").style.display = "none";
@@ -4322,8 +4627,8 @@ body {
     }
 
     function showCartButton(show) {
-      const fixedActions = document.querySelector(".fixed-actions");
-      if (fixedActions) fixedActions.style.display = show ? "grid" : "none";
+      const fixedCartArea = document.querySelector(".fixed-cart-area");
+      if (fixedCartArea) fixedCartArea.style.display = show ? "block" : "none";
     }
 
     function showCartPage() {
