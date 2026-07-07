@@ -1182,6 +1182,36 @@ body {
   }
 }
 
+  
+/* ===== 商品一覧：横スライドではなく、下に並べて全部見えるように変更 ===== */
+.product-list {
+  display: grid !important;
+  grid-auto-flow: row !important;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)) !important;
+  grid-auto-columns: initial !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  scroll-snap-type: none !important;
+  gap: 14px !important;
+  padding: 2px 0 12px !important;
+}
+
+.product-card {
+  scroll-snap-align: none !important;
+  width: 100% !important;
+}
+
+@media (max-width: 760px) {
+  .product-list {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .product-card {
+    min-height: auto !important;
+  }
+}
+
   </style>
 </head>
 
