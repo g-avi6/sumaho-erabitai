@@ -1339,15 +1339,20 @@ body {
 }
 
 
-/* ===== スマホカテゴリーボタン安定化 ===== */
-.category-buttons button {
-  touch-action: manipulation;
-}
-
+/* ===== カテゴリーボタン選択状態 ===== */
 .category-buttons button.active {
   background: var(--main) !important;
   color: #ffffff !important;
   border-color: var(--main) !important;
+}
+
+.category-guide-message {
+  padding: 18px !important;
+  border-radius: 18px !important;
+  background: #eef7ff !important;
+  border: 1px solid var(--line) !important;
+  color: var(--main) !important;
+  font-weight: 800 !important;
 }
 
 </style>
@@ -4648,105 +4653,123 @@ function showSurveyPage() {
       refreshCurrentProductDisplay();
     }
   
-/* ===== スマホカテゴリーボタン安定版：onclickを使わずイベントリスナーで処理 ===== */
-let categoryButtonsInitialized = false;
-
+/* ===== スマホ落ち対策：カテゴリ画面で全商品を一気に表示しない ===== */
 function createCategoryButtons() {
   const area = document.getElementById("categoryButtons");
   if (!area || !Array.isArray(products)) return;
 
   area.innerHTML = "";
 
-  const allButton = document.createElement("button");
-  allButton.type = "button";
-  allButton.textContent = "すべて";
-  allButton.dataset.category = "all";
-  area.appendChild(allButton);
+  const guideButton = document.createElement("button");
+  guideButton.type = "button";
+  guideButton.textContent = "カテゴリを選ぶ";
+  guideButton.className = "active";
+  guideButton.onclick = function () {
+    showCategory("");
+  };
+  area.appendChild(guideButton);
 
-  const categories = Array.from(new Set(products.map(function(product) {
+  const categories = Array.from(new Set(products.map(function (product) {
     return product.category;
   }).filter(Boolean)));
 
-  categories.forEach(function(category) {
+  categories.forEach(function (category) {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = category;
-    button.dataset.category = category;
+    button.onclick = function () {
+      showCategory(category);
+    };
     area.appendChild(button);
   });
-
-  // スマホでクリック処理が二重・古いonclickと衝突しないよう、親要素で一括処理
-  if (!categoryButtonsInitialized) {
-    categoryButtonsInitialized = true;
-
-    area.addEventListener("click", function(event) {
-      const button = event.target.closest("button");
-      if (!button || !area.contains(button)) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      const category = button.dataset.category || "all";
-      showCategory(category);
-    });
-  }
 }
 
 function showCategory(categoryName) {
-  currentCategory = categoryName || "all";
+  currentCategory = categoryName || "";
 
   const area = document.getElementById("categoryProducts");
   if (!area || !Array.isArray(products)) return;
 
   area.innerHTML = "";
 
-  let categoryItems = [];
-  if (currentCategory === "all") {
-    categoryItems = products.slice();
-  } else {
-    categoryItems = products.filter(function(product) {
-      return product.category === currentCategory;
+  if (!currentCategory) {
+    area.innerHTML = "<p class='step-note category-guide-message'>上のボタンからカテゴリを選んでください。スマホで見やすいように、選んだカテゴリの商品だけを表示します。</p>";
+    document.querySelectorAll("#categoryButtons button").forEach(function (button) {
+      button.classList.toggle("active", button.textContent === "カテゴリを選ぶ");
     });
+    return;
   }
 
-  const sortedItems =
-    typeof sortProductsByAffordable === "function"
-      ? sortProductsByAffordable(categoryItems)
-      : categoryItems;
-
-  sortedItems.forEach(function(product) {
-    const card = createProductCard(product, false);
-    if (card) area.appendChild(card);
+  const categoryItems = products.filter(function (product) {
+    return product.category === currentCategory;
   });
 
-  document.querySelectorAll("#categoryButtons button").forEach(function(button) {
-    const activeCategory = button.dataset.category || "all";
-    button.classList.toggle("active", activeCategory === currentCategory);
+  const sortedItems = typeof sortProductsByAffordable === "function"
+    ? sortProductsByAffordable(categoryItems)
+    : categoryItems;
+
+  if (sortedItems.length === 0) {
+    area.innerHTML = "<p class='step-note'>このカテゴリの商品はありません。</p>";
+    return;
+  }
+
+  sortedItems.forEach(function (product) {
+    area.appendChild(createProductCard(product, false));
+  });
+
+  document.querySelectorAll("#categoryButtons button").forEach(function (button) {
+    button.classList.toggle("active", button.textContent === currentCategory);
   });
 }
 
-/* showModeを最小限で補強：カテゴリ表示時だけカテゴリーボタンと一覧を確実に作る */
-if (typeof showMode === "function") {
-  const originalShowModeForCategory = showMode;
+function showMode(modeName) {
+  currentMode = modeName;
+  selectedProduct = null;
 
-  showMode = function(mode) {
-    originalShowModeForCategory(mode);
+  const modes = ["recommend", "category", "popular"];
+  modes.forEach(function (mode) {
+    const area = document.getElementById(mode + "Mode");
+    const button = document.getElementById(mode + "ModeButton");
+    if (area) area.classList.remove("active");
+    if (button) button.classList.remove("active");
+  });
 
-    if (mode === "category") {
-      setTimeout(function() {
-        createCategoryButtons();
-        showCategory(currentCategory || "all");
-      }, 0);
-    }
-  };
-}
+  const activeArea = document.getElementById(modeName + "Mode");
+  const activeButton = document.getElementById(modeName + "ModeButton");
+  if (activeArea) activeArea.classList.add("active");
+  if (activeButton) activeButton.classList.add("active");
 
-/* 初期化後にカテゴリーボタンだけ作っておく */
-document.addEventListener("DOMContentLoaded", function() {
-  setTimeout(function() {
+  if (modeName === "recommend") {
+    showRecommendations(currentRecommendCount);
+  }
+
+  if (modeName === "category") {
     createCategoryButtons();
-  }, 0);
-});
+
+    // ここが重要：
+    // スマホで落ちる原因になるため、カテゴリー画面を開いた瞬間に全商品を表示しない
+    showCategory("");
+  }
+
+  if (modeName === "popular") {
+    displayPopularProducts();
+  }
+}
+
+function refreshCurrentProductDisplay() {
+  if (currentMode === "recommend") {
+    showRecommendations(currentRecommendCount);
+  }
+
+  if (currentMode === "category") {
+    // カテゴリ未選択のときは再描画しても全商品を出さない
+    showCategory(currentCategory || "");
+  }
+
+  if (currentMode === "popular") {
+    displayPopularProducts();
+  }
+}
 
 </script>
 </body>
