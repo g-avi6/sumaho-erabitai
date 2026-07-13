@@ -1625,6 +1625,132 @@ body {
   }
 }
 
+
+/* ===== スマホ商品カード：商品名2行の下に写真・カテゴリ・価格を確実に下げる ===== */
+@media (max-width: 768px) {
+  .product-card {
+    min-height: 230px !important;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .clean-card-inner {
+    display: grid !important;
+    grid-template-columns: 84px 1fr !important;
+    grid-template-areas:
+      "badge badge"
+      "name name"
+      "visual info"
+      "detail detail" !important;
+    row-gap: 18px !important;
+    column-gap: 14px !important;
+    align-items: start !important;
+  }
+
+  .clean-name,
+  .product-card h3,
+  .product-name {
+    grid-area: name !important;
+    min-height: 3.2em !important;
+    max-height: 3.2em !important;
+    line-height: 1.6 !important;
+    margin: 0 0 18px 0 !important;
+    padding: 0 !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    white-space: normal !important;
+    text-overflow: clip !important;
+  }
+
+  .clean-visual,
+  .product-card .emoji,
+  .product-card > .emoji,
+  .emoji,
+  .product-visual {
+    grid-area: visual !important;
+    position: relative !important;
+    top: 18px !important;
+    transform: translateY(18px) !important;
+    width: 78px !important;
+    height: 78px !important;
+    min-width: 78px !important;
+    min-height: 78px !important;
+    margin: 0 !important;
+    align-self: start !important;
+    justify-self: center !important;
+    z-index: 1 !important;
+  }
+
+  .clean-info {
+    grid-area: info !important;
+    position: relative !important;
+    top: 18px !important;
+    transform: translateY(18px) !important;
+    align-self: start !important;
+    margin-top: 0 !important;
+  }
+
+  .clean-category,
+  .category-label,
+  .category-pill {
+    position: relative !important;
+    top: 18px !important;
+    transform: translateY(18px) !important;
+    margin-top: 0 !important;
+  }
+
+  .clean-price,
+  .product-card .price,
+  .price {
+    position: relative !important;
+    top: 18px !important;
+    transform: translateY(18px) !important;
+    margin-top: 8px !important;
+  }
+
+  .clean-detail,
+  .selected-detail,
+  .product-card .selected-detail {
+    margin-top: 34px !important;
+  }
+}
+
+/* かなり狭い画面ではさらに余裕を持たせる */
+@media (max-width: 430px) {
+  .product-card {
+    min-height: 245px !important;
+  }
+
+  .clean-card-inner {
+    row-gap: 20px !important;
+  }
+
+  .clean-visual,
+  .product-card .emoji,
+  .product-card > .emoji,
+  .emoji,
+  .product-visual,
+  .clean-info,
+  .clean-category,
+  .category-label,
+  .category-pill,
+  .clean-price,
+  .product-card .price,
+  .price {
+    top: 24px !important;
+    transform: translateY(24px) !important;
+  }
+
+  .clean-detail,
+  .selected-detail,
+  .product-card .selected-detail {
+    margin-top: 44px !important;
+  }
+}
+
 </style>
 </head>
 
