@@ -1460,6 +1460,137 @@ body {
   }
 }
 
+
+/* ===== 強め修正：スマホでは画像と商品名が絶対に被らない横長カードにする ===== */
+@media (max-width: 768px) {
+  .product-list {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .product-card {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: 76px 1fr !important;
+    grid-template-areas:
+      "visual name"
+      "visual category"
+      "visual price"
+      "detail detail" !important;
+    column-gap: 12px !important;
+    row-gap: 6px !important;
+    align-items: start !important;
+    min-height: unset !important;
+    height: auto !important;
+    padding: 14px !important;
+    overflow: visible !important;
+  }
+
+  .product-card .emoji,
+  .emoji,
+  .product-visual {
+    grid-area: visual !important;
+    position: static !important;
+    width: 68px !important;
+    height: 68px !important;
+    min-width: 68px !important;
+    min-height: 68px !important;
+    margin: 22px 0 0 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    font-size: 34px !important;
+    align-self: start !important;
+    justify-self: center !important;
+    z-index: 1 !important;
+  }
+
+  .product-card h3,
+  .product-name {
+    grid-area: name !important;
+    position: static !important;
+    margin: 18px 0 0 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: unset !important;
+    height: auto !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    -webkit-box-orient: initial !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.5 !important;
+    font-size: 15px !important;
+    z-index: 2 !important;
+  }
+
+  .product-card .category-label,
+  .category-label,
+  .category-pill {
+    grid-area: category !important;
+    position: static !important;
+    margin: 2px 0 0 0 !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    z-index: 2 !important;
+  }
+
+  .product-card .price,
+  .price {
+    grid-area: price !important;
+    position: static !important;
+    margin: 2px 0 0 0 !important;
+    z-index: 2 !important;
+  }
+
+  .product-card .selected-detail,
+  .selected-detail {
+    grid-area: detail !important;
+    position: static !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+    z-index: 2 !important;
+  }
+
+  .product-card .add-button,
+  .add-button {
+    position: static !important;
+    width: 100% !important;
+  }
+
+  .product-card.popular::after,
+  .product-card.unaffordable::after {
+    top: 8px !important;
+    left: auto !important;
+    right: 10px !important;
+  }
+}
+
+/* PC側でも長い商品名はカードを伸ばして表示 */
+@media (min-width: 769px) {
+  .product-card h3,
+  .product-name {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: block !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    min-height: auto !important;
+    height: auto !important;
+    line-height: 1.5 !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .product-card {
+    height: auto !important;
+  }
+}
+
 </style>
 </head>
 
