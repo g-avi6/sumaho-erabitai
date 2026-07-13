@@ -1331,99 +1331,150 @@ body {
 }
 
 
-/* ===== 商品カード：画像・商品名・価格が重ならない安定版 ===== */
+/* ===== 商品カード最終修正：重ならないカード構造 ===== */
+.product-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+  gap: 14px !important;
+  overflow: visible !important;
+}
+
 .product-card {
   position: relative !important;
   display: block !important;
   height: auto !important;
   min-height: 0 !important;
+  padding: 16px !important;
   overflow: visible !important;
-  padding: 14px !important;
+  border-radius: 22px !important;
 }
 
-.product-card .emoji,
-.product-card > .emoji,
-.emoji,
-.product-visual {
-  position: relative !important;
+.clean-card-inner {
   display: grid !important;
-  place-items: center !important;
-  width: 92px !important;
-  height: 92px !important;
-  min-width: 92px !important;
-  min-height: 92px !important;
-  margin: 28px auto 12px !important;
-  font-size: 44px !important;
-  z-index: 1 !important;
-  float: none !important;
+  grid-template-columns: 84px 1fr !important;
+  grid-template-areas:
+    "badge badge"
+    "name name"
+    "visual info"
+    "detail detail" !important;
+  column-gap: 14px !important;
+  row-gap: 10px !important;
+  align-items: center !important;
 }
 
-.product-card h3,
-.product-name {
-  position: relative !important;
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 8px 0 8px !important;
+.clean-badge {
+  grid-area: badge !important;
+  justify-self: start !important;
+  display: inline-block !important;
+  border-radius: 999px !important;
+  padding: 8px 14px !important;
+  background: linear-gradient(135deg, #ff3028, #ff7a2b) !important;
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+
+.clean-name {
+  grid-area: name !important;
+  margin: 0 !important;
   padding: 0 !important;
+  color: #071a43 !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  line-height: 1.45 !important;
   white-space: normal !important;
   overflow: visible !important;
   text-overflow: clip !important;
-  -webkit-line-clamp: unset !important;
-  line-clamp: unset !important;
-  -webkit-box-orient: initial !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
-  line-height: 1.55 !important;
-  z-index: 2 !important;
-  clear: both !important;
 }
 
-.category-label,
-.category-pill {
-  position: relative !important;
+.clean-visual {
+  grid-area: visual !important;
+  width: 78px !important;
+  height: 78px !important;
+  border-radius: 22px !important;
+  display: grid !important;
+  place-items: center !important;
+  background: linear-gradient(180deg, #f0f7ff, #fff8e1) !important;
+  border: 1px solid #d5e4f7 !important;
+  font-size: 40px !important;
+}
+
+.clean-info {
+  grid-area: info !important;
+  display: grid !important;
+  gap: 9px !important;
+  align-items: center !important;
+  justify-items: start !important;
+}
+
+.clean-category {
   display: inline-block !important;
-  width: auto !important;
   max-width: 100% !important;
-  margin: 4px 0 8px !important;
-  z-index: 2 !important;
-  float: none !important;
+  border-radius: 10px !important;
+  padding: 7px 12px !important;
+  background: #f2eadb !important;
+  color: #4f4a3d !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  line-height: 1.2 !important;
 }
 
-.price,
-.product-card .price {
-  position: relative !important;
-  display: block !important;
+.clean-price {
+  color: #ef3128 !important;
+  font-size: 36px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+}
+
+.clean-detail {
+  grid-area: detail !important;
   width: 100% !important;
-  margin: 8px 0 0 !important;
-  padding: 0 !important;
-  z-index: 2 !important;
-  clear: both !important;
-  float: none !important;
+  margin-top: 4px !important;
+  padding-top: 10px !important;
+  border-top: 1px dashed #d5e4f7 !important;
 }
 
-.selected-detail,
-.product-card .selected-detail {
-  position: relative !important;
-  display: block !important;
-  width: 100% !important;
-  margin-top: 12px !important;
-  clear: both !important;
-  z-index: 2 !important;
+.clean-detail-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 6px 0 !important;
+  color: #5d6b86 !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
 }
 
-.add-button,
-.product-card .add-button {
-  position: relative !important;
-  display: block !important;
+.clean-detail-row strong {
+  color: #071a43 !important;
+}
+
+.clean-add-button {
   width: 100% !important;
   margin-top: 10px !important;
-  clear: both !important;
+  border: 2px solid #071a43 !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  color: #071a43 !important;
+  padding: 11px 12px !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
 }
 
-/* スマホではカード幅いっぱい・縦並びを維持 */
+.product-card.selected .clean-add-button {
+  border-color: transparent !important;
+  background: #ffc400 !important;
+}
+
+.product-card::before,
+.product-card::after {
+  pointer-events: none !important;
+}
+
 @media (max-width: 768px) {
   .product-list {
     grid-template-columns: 1fr !important;
@@ -1431,241 +1482,32 @@ body {
   }
 
   .product-card {
-    display: block !important;
-    padding: 13px !important;
+    padding: 15px !important;
   }
 
-  .product-card .emoji,
-  .product-card > .emoji,
-  .emoji,
-  .product-visual {
-    width: 82px !important;
-    height: 82px !important;
-    min-width: 82px !important;
-    min-height: 82px !important;
-    margin: 28px auto 10px !important;
-    font-size: 38px !important;
-  }
-
-  .product-card h3,
-  .product-name {
-    font-size: 15px !important;
-    line-height: 1.55 !important;
-    margin: 8px 0 8px !important;
-  }
-
-  .price,
-  .product-card .price {
-    font-size: 28px !important;
-    line-height: 1.2 !important;
-  }
-
-  .product-card.popular::after {
-    top: 10px !important;
-    left: 10px !important;
-    right: auto !important;
-  }
-
-  .product-card.unaffordable::after {
-    top: 10px !important;
-    right: 10px !important;
-    left: auto !important;
-  }
-}
-
-
-/* ===== 商品カード重なり修正版：商品名・画像・カテゴリ・価格を完全に分離 ===== */
-
-/* 既存のカード配置を上書きして、絶対に重ならない縦積み構造にする */
-.product-card {
-  position: relative !important;
-  display: grid !important;
-  grid-template-columns: 92px 1fr auto !important;
-  grid-template-areas:
-    "badge badge badge"
-    "name name name"
-    "visual category price"
-    "detail detail detail" !important;
-  column-gap: 12px !important;
-  row-gap: 10px !important;
-  align-items: center !important;
-  height: auto !important;
-  min-height: 0 !important;
-  padding: 18px 18px 16px !important;
-  overflow: visible !important;
-}
-
-/* 人気No.1などのラベルが商品名に被らないようにする */
-.product-card.popular::after {
-  position: static !important;
-  grid-area: badge !important;
-  justify-self: start !important;
-  width: fit-content !important;
-  margin: 0 0 2px !important;
-  display: inline-block !important;
-}
-
-/* 残金不足ラベルもカード内の上部に出す */
-.product-card.unaffordable::after {
-  position: static !important;
-  grid-area: badge !important;
-  justify-self: start !important;
-  width: fit-content !important;
-  margin: 0 0 2px !important;
-  display: inline-block !important;
-}
-
-/* 画像・絵文字エリア */
-.product-card .emoji,
-.product-card > .emoji,
-.emoji,
-.product-visual {
-  grid-area: visual !important;
-  position: static !important;
-  width: 82px !important;
-  height: 82px !important;
-  min-width: 82px !important;
-  min-height: 82px !important;
-  margin: 0 !important;
-  display: grid !important;
-  place-items: center !important;
-  font-size: 40px !important;
-  z-index: 1 !important;
-}
-
-/* 商品名は画像の上に独立して表示 */
-.product-card h3,
-.product-name {
-  grid-area: name !important;
-  position: static !important;
-  display: block !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-height: 0 !important;
-  height: auto !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
-  -webkit-line-clamp: unset !important;
-  line-clamp: unset !important;
-  -webkit-box-orient: initial !important;
-  word-break: break-word !important;
-  overflow-wrap: anywhere !important;
-  line-height: 1.45 !important;
-  z-index: 2 !important;
-}
-
-/* カテゴリータグは画像の右側に配置 */
-.product-card .category-label,
-.category-label,
-.category-pill {
-  grid-area: category !important;
-  position: static !important;
-  justify-self: start !important;
-  align-self: center !important;
-  width: fit-content !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  z-index: 2 !important;
-}
-
-/* 価格は右側に独立表示 */
-.product-card .price,
-.price {
-  grid-area: price !important;
-  position: static !important;
-  justify-self: end !important;
-  align-self: center !important;
-  width: auto !important;
-  min-width: max-content !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 2 !important;
-  line-height: 1 !important;
-}
-
-/* 選択時の詳細はカード下に全幅で表示 */
-.product-card .selected-detail,
-.selected-detail {
-  grid-area: detail !important;
-  position: static !important;
-  display: block !important;
-  width: 100% !important;
-  margin-top: 4px !important;
-  z-index: 2 !important;
-}
-
-.product-card .add-button,
-.add-button {
-  position: static !important;
-  display: block !important;
-  width: 100% !important;
-  margin-top: 10px !important;
-}
-
-/* スマホでは価格が大きいので、少し余裕のある構造にする */
-@media (max-width: 768px) {
-  .product-card {
-    grid-template-columns: 76px 1fr auto !important;
-    grid-template-areas:
-      "badge badge badge"
-      "name name name"
-      "visual category price"
-      "detail detail detail" !important;
-    column-gap: 10px !important;
+  .clean-card-inner {
+    grid-template-columns: 76px 1fr !important;
+    column-gap: 12px !important;
     row-gap: 9px !important;
-    padding: 16px 14px 14px !important;
   }
 
-  .product-card .emoji,
-  .product-card > .emoji,
-  .emoji,
-  .product-visual {
-    width: 70px !important;
-    height: 70px !important;
-    min-width: 70px !important;
-    min-height: 70px !important;
-    font-size: 34px !important;
+  .clean-visual {
+    width: 72px !important;
+    height: 72px !important;
+    font-size: 36px !important;
   }
 
-  .product-card h3,
-  .product-name {
-    font-size: 16px !important;
+  .clean-name {
+    font-size: 17px !important;
     line-height: 1.45 !important;
   }
 
-  .product-card .category-label,
-  .category-label,
-  .category-pill {
+  .clean-price {
+    font-size: 34px !important;
+  }
+
+  .clean-category {
     font-size: 14px !important;
-    padding: 8px 12px !important;
-  }
-
-  .product-card .price,
-  .price {
-    font-size: 36px !important;
-    white-space: nowrap !important;
-  }
-}
-
-/* かなり狭い画面では価格を下に回して、絶対に重ならないようにする */
-@media (max-width: 430px) {
-  .product-card {
-    grid-template-columns: 76px 1fr !important;
-    grid-template-areas:
-      "badge badge"
-      "name name"
-      "visual category"
-      "price price"
-      "detail detail" !important;
-  }
-
-  .product-card .price,
-  .price {
-    justify-self: end !important;
-    margin-top: -2px !important;
   }
 }
 
@@ -4962,6 +4804,122 @@ function showSurveyPage() {
       displayCartItems();
       refreshCurrentProductDisplay();
     }
-  </script>
+  
+/* ===== 商品カードを重ならない構造で描画し直す ===== */
+function renderCleanProductCard(product) {
+  const selected = selectedProductId === product.id;
+  const unaffordable = budgetSet && product.price > getRemainingBudget();
+  const remaining = budgetSet ? getRemainingBudget() : null;
+  const after = budgetSet ? remaining - product.price : null;
+
+  const badge = product.popular
+    ? '<div class="clean-badge">人気No.1</div>'
+    : (budgetSet && !unaffordable ? '<div class="clean-badge">おすすめ</div>' : '');
+
+  const detail = selected ? `
+    <div class="clean-detail" onclick="event.stopPropagation()">
+      <div class="clean-detail-row">
+        <span>現在の残金</span>
+        <strong>${budgetSet ? remaining + "円" : "未設定"}</strong>
+      </div>
+      <div class="clean-detail-row">
+        <span>追加後の残金</span>
+        <strong>${budgetSet ? (after >= 0 ? after + "円" : Math.abs(after) + "円オーバー") : "未設定"}</strong>
+      </div>
+      <button class="clean-add-button" type="button" onclick="addToCart(${product.id})">🛒 カートに追加</button>
+    </div>
+  ` : '';
+
+  return `
+    <div class="product-card ${selected ? "selected" : ""} ${unaffordable ? "unaffordable" : ""}" onclick="selectProduct(${product.id})">
+      <div class="clean-card-inner">
+        ${badge}
+        <h3 class="clean-name">${product.name}</h3>
+        <div class="clean-visual">${getEmoji(product)}</div>
+        <div class="clean-info">
+          <div class="clean-category">${product.category}</div>
+          <div class="clean-price">${product.price}円</div>
+        </div>
+        ${detail}
+      </div>
+    </div>
+  `;
+}
+
+function renderCleanProductList(list, elementId) {
+  const container = document.getElementById(elementId);
+  if (!container) return false;
+  container.innerHTML = list.map(renderCleanProductCard).join("");
+  return true;
+}
+
+(function patchProductRenderers() {
+  const originalDisplayProducts = window.displayProducts;
+  const originalDisplayPopularProducts = window.displayPopularProducts;
+  const originalDisplayCategoryProducts = window.displayCategoryProducts;
+  const originalDisplayRecommendedProducts = window.displayRecommendedProducts;
+
+  if (typeof displayPopularProducts === "function") {
+    window.displayPopularProducts = function() {
+      const popularProducts = products.filter(function(product) {
+        return product.popular;
+      });
+      const sorted = sortProductsByBudget ? sortProductsByBudget(popularProducts) : popularProducts;
+      if (!renderCleanProductList(sorted, "popularProducts")) {
+        originalDisplayPopularProducts && originalDisplayPopularProducts();
+      }
+    };
+  }
+
+  if (typeof displayCategoryProducts === "function") {
+    window.displayCategoryProducts = function(category) {
+      let filteredProducts = products;
+      if (category && category !== "すべて") {
+        filteredProducts = products.filter(function(product) {
+          return product.category === category;
+        });
+      }
+      const sorted = sortProductsByBudget ? sortProductsByBudget(filteredProducts) : filteredProducts;
+      if (!renderCleanProductList(sorted, "categoryProducts")) {
+        originalDisplayCategoryProducts && originalDisplayCategoryProducts(category);
+      }
+    };
+  }
+
+  if (typeof displayRecommendedProducts === "function") {
+    window.displayRecommendedProducts = function() {
+      let recommended = [];
+      if (typeof getRecommendedProducts === "function") {
+        recommended = getRecommendedProducts();
+      } else {
+        recommended = products.slice(0, 12);
+      }
+      if (!renderCleanProductList(recommended, "recommendedProducts")) {
+        originalDisplayRecommendedProducts && originalDisplayRecommendedProducts();
+      }
+    };
+  }
+
+  if (typeof refreshCurrentProductDisplay === "function") {
+    const originalRefresh = window.refreshCurrentProductDisplay;
+    window.refreshCurrentProductDisplay = function() {
+      originalRefresh();
+      setTimeout(function() {
+        const activeMode = document.querySelector(".mode-buttons button.active");
+        const text = activeMode ? activeMode.textContent : "";
+        if (text.includes("人気")) {
+          window.displayPopularProducts && window.displayPopularProducts();
+        } else if (text.includes("カテゴリ")) {
+          const activeCat = document.querySelector(".category-buttons button.active");
+          window.displayCategoryProducts && window.displayCategoryProducts(activeCat ? activeCat.textContent : "すべて");
+        } else {
+          window.displayRecommendedProducts && window.displayRecommendedProducts();
+        }
+      }, 0);
+    };
+  }
+})();
+
+</script>
 </body>
 </html>
