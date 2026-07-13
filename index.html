@@ -1338,6 +1338,117 @@ body {
   }
 }
 
+
+/* ===== カテゴリーエラー対策後の商品カード安定デザイン ===== */
+.category-buttons button.active,
+.recommend-buttons button.active {
+  background: var(--main) !important;
+  color: #fff !important;
+  border-color: var(--main) !important;
+}
+
+.safe-card-main {
+  display: grid !important;
+  grid-template-columns: 92px minmax(0, 1fr) auto !important;
+  grid-template-areas: "emoji info price" !important;
+  column-gap: 14px !important;
+  align-items: center !important;
+  text-align: left !important;
+}
+
+.safe-emoji {
+  grid-area: emoji !important;
+  width: 82px !important;
+  height: 82px !important;
+  margin: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 38px !important;
+  border-radius: 22px !important;
+  background: linear-gradient(180deg, #f0f7ff, #fff8e1) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: inset 0 -8px 18px rgba(7,87,200,.05) !important;
+}
+
+.safe-product-info {
+  grid-area: info !important;
+  min-width: 0 !important;
+  display: grid !important;
+  gap: 8px !important;
+}
+
+.safe-product-name {
+  margin: 0 !important;
+  min-height: 3em !important;
+  max-height: 3em !important;
+  line-height: 1.5 !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  color: var(--text) !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  text-overflow: clip !important;
+}
+
+.safe-category-label {
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+.safe-price {
+  grid-area: price !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+  font-size: 34px !important;
+  line-height: 1 !important;
+  justify-self: end !important;
+}
+
+@media (max-width: 760px) {
+  .safe-card-main {
+    grid-template-columns: 72px minmax(0, 1fr) auto !important;
+    column-gap: 10px !important;
+  }
+
+  .safe-emoji {
+    width: 66px !important;
+    height: 66px !important;
+    font-size: 32px !important;
+  }
+
+  .safe-product-name {
+    font-size: 15px !important;
+    min-height: 3em !important;
+    max-height: 3em !important;
+  }
+
+  .safe-price {
+    font-size: 26px !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .safe-card-main {
+    grid-template-columns: 66px minmax(0, 1fr) !important;
+    grid-template-areas:
+      "emoji info"
+      "price price" !important;
+    row-gap: 8px !important;
+  }
+
+  .safe-price {
+    justify-self: end !important;
+    font-size: 28px !important;
+  }
+}
+
 </style>
 </head>
 
@@ -4635,6 +4746,253 @@ function showSurveyPage() {
       displayCartItems();
       refreshCurrentProductDisplay();
     }
-  </script>
+  
+/* ===== カテゴリー表示エラー対策：安定版のカテゴリ・商品表示処理 ===== */
+function safeEscapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function createSafeProductCard(product, isPopularMode) {
+  const card = document.createElement("div");
+
+  const selected = selectedProductId === product.id;
+  const unaffordable = budgetSet && product.price > getRemainingBudget();
+
+  card.className =
+    "product-card" +
+    (selected ? " selected" : "") +
+    (product.popular || isPopularMode ? " popular" : "") +
+    (unaffordable ? " unaffordable" : "");
+
+  card.onclick = function () {
+    selectProduct(product.id);
+  };
+
+  const main = document.createElement("div");
+  main.className = "card-main safe-card-main";
+
+  const emoji = document.createElement("div");
+  emoji.className = "emoji safe-emoji";
+  emoji.textContent = getEmoji(product);
+
+  const info = document.createElement("div");
+  info.className = "safe-product-info";
+
+  const name = document.createElement("h3");
+  name.className = "safe-product-name";
+  name.textContent = product.name;
+
+  const category = document.createElement("span");
+  category.className = "category-label safe-category-label";
+  category.textContent = product.category;
+
+  info.appendChild(name);
+  info.appendChild(category);
+
+  const price = document.createElement("div");
+  price.className = "price safe-price";
+  price.textContent = product.price + "円";
+
+  main.appendChild(emoji);
+  main.appendChild(info);
+  main.appendChild(price);
+  card.appendChild(main);
+
+  if (selected) {
+    const remaining = budgetSet ? getRemainingBudget() : null;
+    const after = budgetSet ? remaining - product.price : null;
+
+    const detail = document.createElement("div");
+    detail.className = "selected-detail";
+
+    detail.innerHTML = `
+      <div class="detail-row">
+        <span>現在の残金</span>
+        <strong>${budgetSet ? remaining + "円" : "未設定"}</strong>
+      </div>
+      <div class="detail-row">
+        <span>追加後の残金</span>
+        <strong class="after-budget">${budgetSet ? (after >= 0 ? after + "円" : Math.abs(after) + "円オーバー") : "未設定"}</strong>
+      </div>
+      <button class="add-button" type="button">カゴに追加</button>
+    `;
+
+    const addButton = detail.querySelector(".add-button");
+    addButton.onclick = function (event) {
+      event.stopPropagation();
+      addToCart(product.id);
+    };
+
+    card.appendChild(detail);
+  }
+
+  return card;
+}
+
+function renderProductCardsSafely(areaId, productArray, isPopularMode) {
+  const area = document.getElementById(areaId);
+  if (!area) return;
+
+  area.innerHTML = "";
+
+  if (!Array.isArray(productArray) || productArray.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "step-note";
+    empty.textContent = "表示できる商品がありません。";
+    area.appendChild(empty);
+    return;
+  }
+
+  productArray.forEach(function (product) {
+    area.appendChild(createSafeProductCard(product, isPopularMode));
+  });
+}
+
+/* 既存のカテゴリーボタン生成を安全版に上書き */
+function createCategoryButtons() {
+  const area = document.getElementById("categoryButtons");
+  if (!area) return;
+
+  area.innerHTML = "";
+
+  const allButton = document.createElement("button");
+  allButton.type = "button";
+  allButton.textContent = "すべて";
+  allButton.onclick = function () {
+    showCategory("all");
+  };
+  area.appendChild(allButton);
+
+  const categories = Array.from(
+    new Set(products.map(function (product) {
+      return product.category;
+    }).filter(Boolean))
+  );
+
+  categories.forEach(function (categoryName) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = categoryName;
+    button.onclick = function () {
+      showCategory(categoryName);
+    };
+    area.appendChild(button);
+  });
+}
+
+/* 既存のカテゴリ表示を安全版に上書き */
+function showCategory(categoryName) {
+  currentCategory = categoryName || "all";
+
+  let categoryItems = products;
+
+  if (currentCategory !== "all") {
+    categoryItems = products.filter(function (product) {
+      return product.category === currentCategory;
+    });
+  }
+
+  const sortedItems = sortProductsByAffordable(categoryItems);
+  renderProductCardsSafely("categoryProducts", sortedItems, false);
+
+  const buttons = document.querySelectorAll("#categoryButtons button");
+  buttons.forEach(function (button) {
+    const isActive =
+      (currentCategory === "all" && button.textContent === "すべて") ||
+      button.textContent === currentCategory;
+    button.classList.toggle("active", isActive);
+  });
+}
+
+/* おすすめ・人気商品も同じ安全カードで描画して、表示崩れを防ぐ */
+function showRecommendations(count) {
+  currentRecommendCount = count;
+
+  let items = [];
+
+  if (!budgetSet) {
+    items = products.slice();
+  } else {
+    const remaining = getRemainingBudget();
+    const available = products.filter(function (product) {
+      return product.price <= remaining;
+    });
+
+    if (count === 1) {
+      items = available.sort(function (a, b) {
+        return Math.abs(remaining - a.price) - Math.abs(remaining - b.price);
+      });
+    } else {
+      const target = remaining / 2;
+      items = available.sort(function (a, b) {
+        return Math.abs(target - a.price) - Math.abs(target - b.price);
+      });
+    }
+  }
+
+  renderProductCardsSafely("recommendProducts", sortProductsByAffordable(items), false);
+}
+
+/* 人気商品表示も安全化 */
+function showPopularProducts() {
+  const popularItems = products.filter(function (product) {
+    return product.popular;
+  });
+
+  renderProductCardsSafely("popularProducts", sortProductsByAffordable(popularItems), true);
+}
+
+/* showModeも、存在しない要素で止まらないように安全化 */
+function showMode(mode) {
+  const modeIds = ["recommend", "category", "popular"];
+
+  modeIds.forEach(function (id) {
+    const area = document.getElementById(id + "Mode");
+    const button = document.getElementById(id + "ModeButton");
+    if (area) area.classList.toggle("active", id === mode);
+    if (button) button.classList.toggle("active", id === mode);
+  });
+
+  if (mode === "recommend") {
+    showRecommendations(currentRecommendCount || 1);
+  } else if (mode === "category") {
+    createCategoryButtons();
+    showCategory(currentCategory || "all");
+  } else if (mode === "popular") {
+    showPopularProducts();
+  }
+}
+
+/* 商品選択時も、今の表示モードを安全に再描画 */
+function refreshCurrentProductDisplay() {
+  const recommendArea = document.getElementById("recommendMode");
+  const categoryArea = document.getElementById("categoryMode");
+  const popularArea = document.getElementById("popularMode");
+
+  if (recommendArea && recommendArea.classList.contains("active")) {
+    showRecommendations(currentRecommendCount || 1);
+  } else if (categoryArea && categoryArea.classList.contains("active")) {
+    showCategory(currentCategory || "all");
+  } else if (popularArea && popularArea.classList.contains("active")) {
+    showPopularProducts();
+  }
+}
+
+/* 初期表示のタイミングでカテゴリーボタンも安全版に作り直す */
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    createCategoryButtons();
+    if (document.getElementById("popularMode") && document.getElementById("popularMode").classList.contains("active")) {
+      showPopularProducts();
+    }
+  }, 0);
+});
+
+</script>
 </body>
 </html>
