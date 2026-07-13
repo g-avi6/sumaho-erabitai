@@ -1331,137 +1331,99 @@ body {
 }
 
 
-/* ===== スマホ表示：長い商品名を省略せず全部表示 ===== */
-.product-card h3,
-.product-name {
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important;
+/* ===== 商品カード：画像・商品名・価格が重ならない安定版 ===== */
+.product-card {
+  position: relative !important;
   display: block !important;
-  -webkit-line-clamp: unset !important;
-  line-clamp: unset !important;
-  -webkit-box-orient: initial !important;
-  min-height: auto !important;
   height: auto !important;
-  word-break: break-word !important;
-  overflow-wrap: anywhere !important;
-}
-
-.product-card {
-  height: auto !important;
-  min-height: auto !important;
-}
-
-@media (max-width: 768px) {
-  .product-card h3,
-  .product-name {
-    font-size: 15px !important;
-    line-height: 1.55 !important;
-  }
-
-  .product-card {
-    align-items: flex-start !important;
-  }
-}
-
-
-/* ===== 商品名が画像に被らないようにカード内レイアウトを修正 ===== */
-.product-card {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: stretch !important;
-  justify-content: flex-start !important;
-  gap: 10px !important;
-  height: auto !important;
-  min-height: auto !important;
-  padding: 14px !important;
+  min-height: 0 !important;
   overflow: visible !important;
+  padding: 14px !important;
 }
 
 .product-card .emoji,
+.product-card > .emoji,
 .emoji,
 .product-visual {
-  position: static !important;
-  flex-shrink: 0 !important;
-  width: 88px !important;
-  height: 88px !important;
-  margin: 26px auto 8px !important;
+  position: relative !important;
   display: grid !important;
   place-items: center !important;
+  width: 92px !important;
+  height: 92px !important;
+  min-width: 92px !important;
+  min-height: 92px !important;
+  margin: 28px auto 12px !important;
+  font-size: 44px !important;
+  z-index: 1 !important;
+  float: none !important;
 }
 
 .product-card h3,
 .product-name {
-  position: static !important;
-  margin: 4px 0 6px !important;
-  padding: 0 !important;
+  position: relative !important;
+  display: block !important;
   width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 8px 0 8px !important;
+  padding: 0 !important;
   white-space: normal !important;
   overflow: visible !important;
   text-overflow: clip !important;
-  display: block !important;
   -webkit-line-clamp: unset !important;
   line-clamp: unset !important;
   -webkit-box-orient: initial !important;
-  min-height: auto !important;
-  height: auto !important;
-  line-height: 1.55 !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
-  z-index: 1 !important;
+  line-height: 1.55 !important;
+  z-index: 2 !important;
+  clear: both !important;
 }
 
-.product-card .category-label,
 .category-label,
 .category-pill {
-  position: static !important;
-  align-self: flex-start !important;
-  margin-top: 2px !important;
+  position: relative !important;
+  display: inline-block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  margin: 4px 0 8px !important;
+  z-index: 2 !important;
+  float: none !important;
 }
 
-.product-card .price,
-.price {
-  position: static !important;
-  margin-top: 6px !important;
-}
-
-.product-card .selected-detail,
-.selected-detail {
-  position: static !important;
+.price,
+.product-card .price {
+  position: relative !important;
+  display: block !important;
   width: 100% !important;
-  margin-top: 8px !important;
+  margin: 8px 0 0 !important;
+  padding: 0 !important;
+  z-index: 2 !important;
+  clear: both !important;
+  float: none !important;
 }
 
-.product-card .add-button,
-.add-button {
-  position: static !important;
+.selected-detail,
+.product-card .selected-detail {
+  position: relative !important;
+  display: block !important;
   width: 100% !important;
+  margin-top: 12px !important;
+  clear: both !important;
+  z-index: 2 !important;
 }
 
-@media (max-width: 768px) {
-  .product-card {
-    gap: 8px !important;
-    padding: 13px !important;
-  }
-
-  .product-card .emoji,
-  .emoji,
-  .product-visual {
-    width: 80px !important;
-    height: 80px !important;
-    margin: 24px auto 8px !important;
-  }
-
-  .product-card h3,
-  .product-name {
-    font-size: 15px !important;
-    line-height: 1.55 !important;
-    margin-top: 4px !important;
-  }
+.add-button,
+.product-card .add-button {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  margin-top: 10px !important;
+  clear: both !important;
 }
 
-
-/* ===== 強め修正：スマホでは画像と商品名が絶対に被らない横長カードにする ===== */
+/* スマホではカード幅いっぱい・縦並びを維持 */
 @media (max-width: 768px) {
   .product-list {
     grid-template-columns: 1fr !important;
@@ -1469,125 +1431,45 @@ body {
   }
 
   .product-card {
-    position: relative !important;
-    display: grid !important;
-    grid-template-columns: 76px 1fr !important;
-    grid-template-areas:
-      "visual name"
-      "visual category"
-      "visual price"
-      "detail detail" !important;
-    column-gap: 12px !important;
-    row-gap: 6px !important;
-    align-items: start !important;
-    min-height: unset !important;
-    height: auto !important;
-    padding: 14px !important;
-    overflow: visible !important;
+    display: block !important;
+    padding: 13px !important;
   }
 
   .product-card .emoji,
+  .product-card > .emoji,
   .emoji,
   .product-visual {
-    grid-area: visual !important;
-    position: static !important;
-    width: 68px !important;
-    height: 68px !important;
-    min-width: 68px !important;
-    min-height: 68px !important;
-    margin: 22px 0 0 0 !important;
-    display: grid !important;
-    place-items: center !important;
-    font-size: 34px !important;
-    align-self: start !important;
-    justify-self: center !important;
-    z-index: 1 !important;
+    width: 82px !important;
+    height: 82px !important;
+    min-width: 82px !important;
+    min-height: 82px !important;
+    margin: 28px auto 10px !important;
+    font-size: 38px !important;
   }
 
   .product-card h3,
   .product-name {
-    grid-area: name !important;
-    position: static !important;
-    margin: 18px 0 0 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: unset !important;
-    height: auto !important;
-    white-space: normal !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    display: block !important;
-    -webkit-line-clamp: unset !important;
-    line-clamp: unset !important;
-    -webkit-box-orient: initial !important;
-    word-break: normal !important;
-    overflow-wrap: break-word !important;
-    line-height: 1.5 !important;
     font-size: 15px !important;
-    z-index: 2 !important;
+    line-height: 1.55 !important;
+    margin: 8px 0 8px !important;
   }
 
-  .product-card .category-label,
-  .category-label,
-  .category-pill {
-    grid-area: category !important;
-    position: static !important;
-    margin: 2px 0 0 0 !important;
-    width: fit-content !important;
-    max-width: 100% !important;
-    z-index: 2 !important;
+  .price,
+  .product-card .price {
+    font-size: 28px !important;
+    line-height: 1.2 !important;
   }
 
-  .product-card .price,
-  .price {
-    grid-area: price !important;
-    position: static !important;
-    margin: 2px 0 0 0 !important;
-    z-index: 2 !important;
+  .product-card.popular::after {
+    top: 10px !important;
+    left: 10px !important;
+    right: auto !important;
   }
 
-  .product-card .selected-detail,
-  .selected-detail {
-    grid-area: detail !important;
-    position: static !important;
-    width: 100% !important;
-    margin-top: 10px !important;
-    z-index: 2 !important;
-  }
-
-  .product-card .add-button,
-  .add-button {
-    position: static !important;
-    width: 100% !important;
-  }
-
-  .product-card.popular::after,
   .product-card.unaffordable::after {
-    top: 8px !important;
-    left: auto !important;
+    top: 10px !important;
     right: 10px !important;
-  }
-}
-
-/* PC側でも長い商品名はカードを伸ばして表示 */
-@media (min-width: 769px) {
-  .product-card h3,
-  .product-name {
-    white-space: normal !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    display: block !important;
-    -webkit-line-clamp: unset !important;
-    line-clamp: unset !important;
-    min-height: auto !important;
-    height: auto !important;
-    line-height: 1.5 !important;
-    overflow-wrap: break-word !important;
-  }
-
-  .product-card {
-    height: auto !important;
+    left: auto !important;
   }
 }
 
