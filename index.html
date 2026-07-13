@@ -1511,6 +1511,54 @@ body {
   }
 }
 
+
+/* ===== 商品名を2行表示にする修正 ===== */
+
+/* 新しいカード構造用 */
+.clean-name {
+  min-height: 3em !important;          /* 2行分の高さを確保 */
+  max-height: 3em !important;
+  line-height: 1.5 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;    /* 最大2行 */
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;      /* ... を出さない */
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* 元のカード構造が残っている場合にも効かせる */
+.product-card h3,
+.product-name {
+  min-height: 3em !important;          /* 2行分 */
+  max-height: 3em !important;
+  line-height: 1.5 !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 2 !important;    /* 最大2行 */
+  line-clamp: 2 !important;
+  -webkit-box-orient: vertical !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;      /* ... を出さない */
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* スマホ表示でも2行分を確保 */
+@media (max-width: 768px) {
+  .clean-name,
+  .product-card h3,
+  .product-name {
+    min-height: 3em !important;
+    max-height: 3em !important;
+    line-height: 1.5 !important;
+    font-size: 17px !important;
+  }
+}
+
 </style>
 </head>
 
