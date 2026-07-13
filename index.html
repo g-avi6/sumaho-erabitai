@@ -1330,6 +1330,40 @@ body {
   }
 }
 
+
+/* ===== スマホ表示：長い商品名を省略せず全部表示 ===== */
+.product-card h3,
+.product-name {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  min-height: auto !important;
+  height: auto !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+.product-card {
+  height: auto !important;
+  min-height: auto !important;
+}
+
+@media (max-width: 768px) {
+  .product-card h3,
+  .product-name {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  .product-card {
+    align-items: flex-start !important;
+  }
+}
+
 </style>
 </head>
 
