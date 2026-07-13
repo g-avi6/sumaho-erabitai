@@ -1339,10 +1339,14 @@ body {
 }
 
 
-/* ===== カテゴリーボタン選択状態 ===== */
+/* ===== スマホカテゴリーボタン安定化 ===== */
+.category-buttons button {
+  touch-action: manipulation;
+}
+
 .category-buttons button.active {
   background: var(--main) !important;
-  color: #fff !important;
+  color: #ffffff !important;
   border-color: var(--main) !important;
 }
 
@@ -4644,7 +4648,9 @@ function showSurveyPage() {
       refreshCurrentProductDisplay();
     }
   
-/* ===== カテゴリーボタン最小修正版：商品カード生成は元のまま ===== */
+/* ===== スマホカテゴリーボタン安定版：onclickを使わずイベントリスナーで処理 ===== */
+let categoryButtonsInitialized = false;
+
 function createCategoryButtons() {
   const area = document.getElementById("categoryButtons");
   if (!area || !Array.isArray(products)) return;
@@ -4654,24 +4660,36 @@ function createCategoryButtons() {
   const allButton = document.createElement("button");
   allButton.type = "button";
   allButton.textContent = "すべて";
-  allButton.onclick = function () {
-    showCategory("all");
-  };
+  allButton.dataset.category = "all";
   area.appendChild(allButton);
 
-  const categories = Array.from(new Set(products.map(function (product) {
+  const categories = Array.from(new Set(products.map(function(product) {
     return product.category;
   }).filter(Boolean)));
 
-  categories.forEach(function (category) {
+  categories.forEach(function(category) {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = category;
-    button.onclick = function () {
-      showCategory(category);
-    };
+    button.dataset.category = category;
     area.appendChild(button);
   });
+
+  // スマホでクリック処理が二重・古いonclickと衝突しないよう、親要素で一括処理
+  if (!categoryButtonsInitialized) {
+    categoryButtonsInitialized = true;
+
+    area.addEventListener("click", function(event) {
+      const button = event.target.closest("button");
+      if (!button || !area.contains(button)) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const category = button.dataset.category || "all";
+      showCategory(category);
+    });
+  }
 }
 
 function showCategory(categoryName) {
@@ -4682,41 +4700,37 @@ function showCategory(categoryName) {
 
   area.innerHTML = "";
 
-  let categoryItems;
+  let categoryItems = [];
   if (currentCategory === "all") {
     categoryItems = products.slice();
   } else {
-    categoryItems = products.filter(function (product) {
+    categoryItems = products.filter(function(product) {
       return product.category === currentCategory;
     });
   }
 
-  const sortedItems = typeof sortProductsByAffordable === "function"
-    ? sortProductsByAffordable(categoryItems)
-    : categoryItems;
+  const sortedItems =
+    typeof sortProductsByAffordable === "function"
+      ? sortProductsByAffordable(categoryItems)
+      : categoryItems;
 
-  sortedItems.forEach(function (product) {
-    try {
-      area.appendChild(createProductCard(product, false));
-    } catch (error) {
-      console.error("商品カードの表示でエラー:", error, product);
-    }
+  sortedItems.forEach(function(product) {
+    const card = createProductCard(product, false);
+    if (card) area.appendChild(card);
   });
 
-  const buttons = document.querySelectorAll("#categoryButtons button");
-  buttons.forEach(function (button) {
-    const active =
-      (currentCategory === "all" && button.textContent === "すべて") ||
-      button.textContent === currentCategory;
-    button.classList.toggle("active", active);
+  document.querySelectorAll("#categoryButtons button").forEach(function(button) {
+    const activeCategory = button.dataset.category || "all";
+    button.classList.toggle("active", activeCategory === currentCategory);
   });
 }
 
-/* showModeのカテゴリ部分だけ安全にする */
+/* showModeを最小限で補強：カテゴリ表示時だけカテゴリーボタンと一覧を確実に作る */
 if (typeof showMode === "function") {
-  const originalShowMode = showMode;
+  const originalShowModeForCategory = showMode;
+
   showMode = function(mode) {
-    originalShowMode(mode);
+    originalShowModeForCategory(mode);
 
     if (mode === "category") {
       setTimeout(function() {
@@ -4726,6 +4740,13 @@ if (typeof showMode === "function") {
     }
   };
 }
+
+/* 初期化後にカテゴリーボタンだけ作っておく */
+document.addEventListener("DOMContentLoaded", function() {
+  setTimeout(function() {
+    createCategoryButtons();
+  }, 0);
+});
 
 </script>
 </body>
