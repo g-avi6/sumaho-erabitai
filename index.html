@@ -1473,6 +1473,202 @@ body {
   }
 }
 
+
+/* ===== 商品カード重なり修正版：商品名・画像・カテゴリ・価格を完全に分離 ===== */
+
+/* 既存のカード配置を上書きして、絶対に重ならない縦積み構造にする */
+.product-card {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 92px 1fr auto !important;
+  grid-template-areas:
+    "badge badge badge"
+    "name name name"
+    "visual category price"
+    "detail detail detail" !important;
+  column-gap: 12px !important;
+  row-gap: 10px !important;
+  align-items: center !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 18px 18px 16px !important;
+  overflow: visible !important;
+}
+
+/* 人気No.1などのラベルが商品名に被らないようにする */
+.product-card.popular::after {
+  position: static !important;
+  grid-area: badge !important;
+  justify-self: start !important;
+  width: fit-content !important;
+  margin: 0 0 2px !important;
+  display: inline-block !important;
+}
+
+/* 残金不足ラベルもカード内の上部に出す */
+.product-card.unaffordable::after {
+  position: static !important;
+  grid-area: badge !important;
+  justify-self: start !important;
+  width: fit-content !important;
+  margin: 0 0 2px !important;
+  display: inline-block !important;
+}
+
+/* 画像・絵文字エリア */
+.product-card .emoji,
+.product-card > .emoji,
+.emoji,
+.product-visual {
+  grid-area: visual !important;
+  position: static !important;
+  width: 82px !important;
+  height: 82px !important;
+  min-width: 82px !important;
+  min-height: 82px !important;
+  margin: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  font-size: 40px !important;
+  z-index: 1 !important;
+}
+
+/* 商品名は画像の上に独立して表示 */
+.product-card h3,
+.product-name {
+  grid-area: name !important;
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.45 !important;
+  z-index: 2 !important;
+}
+
+/* カテゴリータグは画像の右側に配置 */
+.product-card .category-label,
+.category-label,
+.category-pill {
+  grid-area: category !important;
+  position: static !important;
+  justify-self: start !important;
+  align-self: center !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  z-index: 2 !important;
+}
+
+/* 価格は右側に独立表示 */
+.product-card .price,
+.price {
+  grid-area: price !important;
+  position: static !important;
+  justify-self: end !important;
+  align-self: center !important;
+  width: auto !important;
+  min-width: max-content !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 2 !important;
+  line-height: 1 !important;
+}
+
+/* 選択時の詳細はカード下に全幅で表示 */
+.product-card .selected-detail,
+.selected-detail {
+  grid-area: detail !important;
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  margin-top: 4px !important;
+  z-index: 2 !important;
+}
+
+.product-card .add-button,
+.add-button {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  margin-top: 10px !important;
+}
+
+/* スマホでは価格が大きいので、少し余裕のある構造にする */
+@media (max-width: 768px) {
+  .product-card {
+    grid-template-columns: 76px 1fr auto !important;
+    grid-template-areas:
+      "badge badge badge"
+      "name name name"
+      "visual category price"
+      "detail detail detail" !important;
+    column-gap: 10px !important;
+    row-gap: 9px !important;
+    padding: 16px 14px 14px !important;
+  }
+
+  .product-card .emoji,
+  .product-card > .emoji,
+  .emoji,
+  .product-visual {
+    width: 70px !important;
+    height: 70px !important;
+    min-width: 70px !important;
+    min-height: 70px !important;
+    font-size: 34px !important;
+  }
+
+  .product-card h3,
+  .product-name {
+    font-size: 16px !important;
+    line-height: 1.45 !important;
+  }
+
+  .product-card .category-label,
+  .category-label,
+  .category-pill {
+    font-size: 14px !important;
+    padding: 8px 12px !important;
+  }
+
+  .product-card .price,
+  .price {
+    font-size: 36px !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* かなり狭い画面では価格を下に回して、絶対に重ならないようにする */
+@media (max-width: 430px) {
+  .product-card {
+    grid-template-columns: 76px 1fr !important;
+    grid-template-areas:
+      "badge badge"
+      "name name"
+      "visual category"
+      "price price"
+      "detail detail" !important;
+  }
+
+  .product-card .price,
+  .price {
+    justify-self: end !important;
+    margin-top: -2px !important;
+  }
+}
+
 </style>
 </head>
 
