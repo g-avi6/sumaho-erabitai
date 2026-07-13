@@ -1364,6 +1364,102 @@ body {
   }
 }
 
+
+/* ===== 商品名が画像に被らないようにカード内レイアウトを修正 ===== */
+.product-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  height: auto !important;
+  min-height: auto !important;
+  padding: 14px !important;
+  overflow: visible !important;
+}
+
+.product-card .emoji,
+.emoji,
+.product-visual {
+  position: static !important;
+  flex-shrink: 0 !important;
+  width: 88px !important;
+  height: 88px !important;
+  margin: 26px auto 8px !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+.product-card h3,
+.product-name {
+  position: static !important;
+  margin: 4px 0 6px !important;
+  padding: 0 !important;
+  width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  -webkit-box-orient: initial !important;
+  min-height: auto !important;
+  height: auto !important;
+  line-height: 1.55 !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  z-index: 1 !important;
+}
+
+.product-card .category-label,
+.category-label,
+.category-pill {
+  position: static !important;
+  align-self: flex-start !important;
+  margin-top: 2px !important;
+}
+
+.product-card .price,
+.price {
+  position: static !important;
+  margin-top: 6px !important;
+}
+
+.product-card .selected-detail,
+.selected-detail {
+  position: static !important;
+  width: 100% !important;
+  margin-top: 8px !important;
+}
+
+.product-card .add-button,
+.add-button {
+  position: static !important;
+  width: 100% !important;
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    gap: 8px !important;
+    padding: 13px !important;
+  }
+
+  .product-card .emoji,
+  .emoji,
+  .product-visual {
+    width: 80px !important;
+    height: 80px !important;
+    margin: 24px auto 8px !important;
+  }
+
+  .product-card h3,
+  .product-name {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    margin-top: 4px !important;
+  }
+}
+
 </style>
 </head>
 
