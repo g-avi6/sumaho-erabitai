@@ -1559,6 +1559,72 @@ body {
   }
 }
 
+
+/* ===== 商品名2行分に合わせて、写真・カテゴリ・値段を一段下げる ===== */
+
+/* 新しいカード構造用：商品名と下段の間に余白を追加 */
+.clean-card-inner {
+  row-gap: 14px !important;
+}
+
+.clean-name {
+  margin-bottom: 8px !important;
+}
+
+/* 写真・カテゴリ・価格の段を少し下げる */
+.clean-visual,
+.clean-info {
+  margin-top: 8px !important;
+}
+
+/* 価格も写真の段に合わせて下げる */
+.clean-price {
+  margin-top: 2px !important;
+}
+
+/* 元のカード構造が残っている場合にも効かせる */
+.product-card .emoji,
+.product-card > .emoji,
+.emoji,
+.product-visual {
+  margin-top: 12px !important;
+}
+
+.category-label,
+.category-pill,
+.price {
+  margin-top: 10px !important;
+}
+
+/* スマホ表示では、下げ幅を少し大きめにする */
+@media (max-width: 768px) {
+  .clean-card-inner {
+    row-gap: 16px !important;
+  }
+
+  .clean-name {
+    margin-bottom: 10px !important;
+  }
+
+  .clean-visual,
+  .clean-info {
+    margin-top: 10px !important;
+  }
+
+  .product-card .emoji,
+  .product-card > .emoji,
+  .emoji,
+  .product-visual {
+    margin-top: 14px !important;
+  }
+
+  .category-label,
+  .category-pill,
+  .price {
+    margin-top: 12px !important;
+  }
+}
+
 </style>
 </head>
 
