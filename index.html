@@ -1339,7 +1339,7 @@ body {
 }
 
 
-/* ===== カテゴリーボタン選択状態 ===== */
+/* ===== カテゴリーモード：スマホ落ち対策 ===== */
 .category-buttons button.active {
   background: var(--main) !important;
   color: #ffffff !important;
@@ -1347,12 +1347,31 @@ body {
 }
 
 .category-guide-message {
-  padding: 18px !important;
+  padding: 16px !important;
   border-radius: 18px !important;
   background: #eef7ff !important;
   border: 1px solid var(--line) !important;
   color: var(--main) !important;
   font-weight: 800 !important;
+}
+
+.category-more-button {
+  margin-top: 10px !important;
+}
+
+
+/* ===== 新商品タブ用 ===== */
+.new-product-note {
+  padding: 14px 16px !important;
+  border-radius: 16px !important;
+  background: #fff8e8 !important;
+  border: 1px solid #ffe0a6 !important;
+  color: #6b4a10 !important;
+  font-weight: 800 !important;
+}
+
+#popularMode h3::after {
+  content: " ✨";
 }
 
 </style>
@@ -1387,7 +1406,7 @@ body {
       <div class="mode-buttons">
         <button id="recommendModeButton" onclick="showMode('recommend')">おすすめ</button>
         <button id="categoryModeButton" onclick="showMode('category')">カテゴリー</button>
-        <button id="popularModeButton" onclick="showMode('popular')">人気商品</button>
+        <button id="popularModeButton" onclick="showMode('popular')">新商品</button>
       </div>
 
       <div id="recommendMode" class="mode-area">
@@ -1403,7 +1422,7 @@ body {
       </div>
 
       <div id="popularMode" class="mode-area">
-        <h3>今日の人気商品</h3>
+        <h3>新商品</h3>
         <div class="product-list" id="popularProducts"></div>
       </div>
     </section>
@@ -4298,10 +4317,26 @@ body {
 
     let budget = 0;
     let budgetSet = false;
+
+    const newProducts = [
+      { id: 9001, name: "バターサンドウィッチ 和紅茶アールグレイ", category: "新商品", price: 0 },
+      { id: 9002, name: "バターサンドウィッチ あまおう", category: "新商品", price: 0 },
+      { id: 9003, name: "バターサンドウィッチ 塩キャラメル", category: "新商品", price: 0 },
+      { id: 9004, name: "バターサンドウィッチ ホワイトチョコチップ", category: "新商品", price: 0 },
+      { id: 9005, name: "バターサンドウィッチ 宇治抹茶", category: "新商品", price: 0 },
+      { id: 9006, name: "おろしハンバーグ＆和風醤油スパゲティ", category: "新商品", price: 0 },
+      { id: 9007, name: "クラフトボス シークワーサー＆ウメ", category: "新商品", price: 0 },
+      { id: 9008, name: "レッドブル すだちエディション", category: "新商品", price: 0 },
+      { id: 9009, name: "スッパイ大作戦 ぶどう味", category: "新商品", price: 0 },
+      { id: 9010, name: "スッパイ大作戦 マスカット味", category: "新商品", price: 0 },
+      { id: 9011, name: "健康のど飴 戦うマヌカハニーレモネード", category: "新商品", price: 0 }
+    ];
+
     let cart = [];
     let selectedProduct = null;
-    let currentCategory = "all";
+    let currentCategory = "";
     let currentMode = "";
+    let categoryDisplayLimit = 24;
     let currentRecommendCount = 1;
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -4313,6 +4348,16 @@ body {
     });
 
     function getEmoji(product) {
+      if (product && product.category === "新商品") {
+        if (product.name.includes("バターサンド")) return "🍪";
+        if (product.name.includes("スパゲティ")) return "🍝";
+        if (product.name.includes("クラフトボス")) return "🥤";
+        if (product.name.includes("レッドブル")) return "🥤";
+        if (product.name.includes("スッパイ大作戦")) return "🍬";
+        if (product.name.includes("のど飴")) return "🍯";
+        return "✨";
+      }
+
       const category = product.category || "";
       const name = product.name || "";
       if (category.includes("おにぎり") || name.includes("おにぎり") || name.includes("おむすび")) return "🍙";
@@ -4372,12 +4417,33 @@ body {
 
     function createCategoryButtons() {
       const area = document.getElementById("categoryButtons");
-      const categories = Array.from(new Set(products.map(function (product) { return product.category; })));
-      area.innerHTML = '<button onclick="showCategory(\'all\')">すべて</button>';
+      if (!area) return;
+
+      area.innerHTML = "";
+
+      const guideButton = document.createElement("button");
+      guideButton.type = "button";
+      guideButton.textContent = "カテゴリを選ぶ";
+      guideButton.classList.add("active");
+      guideButton.onclick = function () {
+        currentCategory = "";
+        categoryDisplayLimit = 24;
+        showCategory("");
+      };
+      area.appendChild(guideButton);
+
+      const categories = Array.from(new Set(products.map(function (product) {
+        return product.category;
+      }).filter(Boolean)));
+
       categories.forEach(function (category) {
         const button = document.createElement("button");
+        button.type = "button";
         button.textContent = category;
-        button.onclick = function () { showCategory(category); };
+        button.onclick = function () {
+          categoryDisplayLimit = 24;
+          showCategory(category);
+        };
         area.appendChild(button);
       });
     }
@@ -4385,104 +4451,236 @@ body {
     function showMode(modeName) {
       currentMode = modeName;
       selectedProduct = null;
+
       const modes = ["recommend", "category", "popular"];
       modes.forEach(function (mode) {
-        document.getElementById(mode + "Mode").classList.remove("active");
-        document.getElementById(mode + "ModeButton").classList.remove("active");
+        const area = document.getElementById(mode + "Mode");
+        const button = document.getElementById(mode + "ModeButton");
+        if (area) area.classList.remove("active");
+        if (button) button.classList.remove("active");
       });
-      document.getElementById(modeName + "Mode").classList.add("active");
-      document.getElementById(modeName + "ModeButton").classList.add("active");
-      if (modeName === "recommend") showRecommendations(currentRecommendCount);
-      if (modeName === "category") showCategory(currentCategory);
-      if (modeName === "popular") displayPopularProducts();
+
+      const activeArea = document.getElementById(modeName + "Mode");
+      const activeButton = document.getElementById(modeName + "ModeButton");
+      if (activeArea) activeArea.classList.add("active");
+      if (activeButton) activeButton.classList.add("active");
+
+      if (modeName === "recommend") {
+        showRecommendations(currentRecommendCount);
+      }
+
+      if (modeName === "category") {
+        createCategoryButtons();
+        currentCategory = "";
+        categoryDisplayLimit = 24;
+        showCategory("");
+      }
+
+      if (modeName === "popular") {
+        displayPopularProducts();
+      }
     }
 
     function displayPopularProducts() {
       const area = document.getElementById("popularProducts");
+      if (!area) return;
       area.innerHTML = "";
-      const popularItems = products.filter(function (product) { return product.popular === true; });
-      const sortedItems = sortProductsByAffordable(popularItems);
-      sortedItems.forEach(function (product) { area.appendChild(createProductCard(product, true)); });
+
+      const note = document.createElement("p");
+      note.className = "step-note new-product-note";
+      note.textContent = "価格が未確認の商品は0円表示にしています。実際の価格は店頭で確認してください。";
+      area.appendChild(note);
+
+      newProducts.forEach(function (product) {
+        area.appendChild(createProductCard(product, true));
+      });
     }
 
     function showCategory(categoryName) {
-      currentCategory = categoryName;
+      currentCategory = categoryName || "";
+
       const area = document.getElementById("categoryProducts");
+      if (!area) return;
+
       area.innerHTML = "";
-      let categoryItems;
-      if (categoryName === "all") categoryItems = products;
-      else categoryItems = products.filter(function (product) { return product.category === categoryName; });
+
+      document.querySelectorAll("#categoryButtons button").forEach(function (button) {
+        const isGuide = !currentCategory && button.textContent === "カテゴリを選ぶ";
+        const isCurrent = currentCategory && button.textContent === currentCategory;
+        button.classList.toggle("active", isGuide || isCurrent);
+      });
+
+      if (!currentCategory) {
+        const message = document.createElement("p");
+        message.className = "step-note category-guide-message";
+        message.textContent = "上のボタンからカテゴリを選んでください。スマホで見やすいように、選んだカテゴリの商品だけを表示します。";
+        area.appendChild(message);
+        return;
+      }
+
+      const categoryItems = products.filter(function (product) {
+        return product.category === currentCategory;
+      });
+
       const sortedItems = sortProductsByAffordable(categoryItems);
-      sortedItems.forEach(function (product) { area.appendChild(createProductCard(product, false)); });
+      const visibleItems = sortedItems.slice(0, categoryDisplayLimit);
+
+      if (visibleItems.length === 0) {
+        const emptyMessage = document.createElement("p");
+        emptyMessage.className = "step-note";
+        emptyMessage.textContent = "このカテゴリの商品はありません。";
+        area.appendChild(emptyMessage);
+        return;
+      }
+
+      visibleItems.forEach(function (product) {
+        area.appendChild(createProductCard(product, false));
+      });
+
+      if (sortedItems.length > categoryDisplayLimit) {
+        const moreButton = document.createElement("button");
+        moreButton.type = "button";
+        moreButton.className = "primary-button category-more-button";
+        moreButton.textContent = "さらに表示する";
+        moreButton.onclick = function () {
+          categoryDisplayLimit += 24;
+          showCategory(currentCategory);
+        };
+        area.appendChild(moreButton);
+      }
     }
 
     function showRecommendations(count) {
       currentRecommendCount = count;
       const area = document.getElementById("recommendProducts");
+      if (!area) return;
+
       area.innerHTML = "";
-      if (budget === 0) { area.innerHTML = "<p class='step-note'>予算を決めると、残り予算に合わせたおすすめ商品が表示されます。</p>"; return; }
+
+      if (budget === 0) {
+        area.innerHTML = "<p class='step-note'>予算を決めると、残り予算に合わせたおすすめ商品が表示されます。</p>";
+        return;
+      }
+
       const remaining = getRemainingBudget();
-      if (remaining <= 0) { area.innerHTML = "<p class='step-note'>残り予算がありません。買い物かごを確認してください。</p>"; return; }
-      const cartIds = cart.map(function (item) { return item.id; });
-      const availableProducts = products.filter(function (product) { return !cartIds.includes(product.id) && product.price <= remaining; });
+      if (remaining <= 0) {
+        area.innerHTML = "<p class='step-note'>残り予算がありません。買い物かごを確認してください。</p>";
+        return;
+      }
+
+      const cartIds = cart.map(function (item) {
+        return item.id;
+      });
+
+      const availableProducts = products.filter(function (product) {
+        return !cartIds.includes(product.id) && product.price <= remaining;
+      });
+
       let recommendations = [];
+
       if (count === 1) {
-        recommendations = availableProducts.sort(function (a, b) { return b.price - a.price; }).slice(0, 4);
+        recommendations = availableProducts
+          .sort(function (a, b) { return b.price - a.price; })
+          .slice(0, 4);
       } else {
         const halfBudget = remaining / 2;
-  recommendations = availableProducts
-    .filter(function (product) { return product.price <= halfBudget; })
-    .sort(function (a, b) { return b.price - a.price; })
-    .slice(0, 6);
+        recommendations = availableProducts
+          .filter(function (product) { return product.price <= halfBudget; })
+          .sort(function (a, b) { return b.price - a.price; })
+          .slice(0, 6);
       }
-      if (recommendations.length === 0) { area.innerHTML = "<p class='step-note'>残り予算で買える商品がありません。</p>"; return; }
-      recommendations.forEach(function (product) { area.appendChild(createProductCard(product, false)); });
+
+      if (recommendations.length === 0) {
+        area.innerHTML = "<p class='step-note'>残り予算で買える商品がありません。</p>";
+        return;
+      }
+
+      recommendations.forEach(function (product) {
+        area.appendChild(createProductCard(product, false));
+      });
     }
 
     function createProductCard(product, isPopular) {
       const card = document.createElement("div");
       card.className = "product-card";
+
       if (isPopular) card.classList.add("popular");
       if (!isAffordable(product)) card.classList.add("unaffordable");
       if (selectedProduct && selectedProduct.id === product.id) card.classList.add("selected");
-      card.onclick = function () { selectProduct(product.id); };
+
+      card.onclick = function () {
+        selectProduct(product.id);
+      };
 
       let detailHtml = "";
+
       if (selectedProduct && selectedProduct.id === product.id) {
         let detailContent = "";
+
         if (!budgetSet) {
-          detailContent = '<div class="detail-row"><span>価格</span><strong>' + product.price + '円</strong></div>' +
-                          '<div class="detail-row"><span>予算</span><strong>未設定</strong></div>';
+          detailContent =
+            '<div class="detail-row"><span>価格</span><strong>' + product.price + '円</strong></div>' +
+            '<div class="detail-row"><span>予算</span><strong>未設定</strong></div>';
         } else {
           const remainingNow = getRemainingBudget();
           const afterRemaining = remainingNow - product.price;
-          let budgetText = afterRemaining >= 0 ? '<span class="after-budget">' + afterRemaining + '円</span>' : '<span class="after-budget">' + Math.abs(afterRemaining) + '円オーバー</span>';
-          detailContent = '<div class="detail-row"><span>現在の残金</span><strong>' + remainingNow + '円</strong></div>' +
-                          '<div class="detail-row"><span>追加後の残金</span><strong>' + budgetText + '</strong></div>';
+          const budgetText = afterRemaining >= 0
+            ? '<span class="after-budget">' + afterRemaining + '円</span>'
+            : '<span class="after-budget">' + Math.abs(afterRemaining) + '円オーバー</span>';
+
+          detailContent =
+            '<div class="detail-row"><span>現在の残金</span><strong>' + remainingNow + '円</strong></div>' +
+            '<div class="detail-row"><span>追加後の残金</span><strong>' + budgetText + '</strong></div>';
         }
-        detailHtml = '<div class="selected-detail">' + detailContent + '<button class="add-button" onclick="addProductToCart(event, ' + product.id + ')">カゴに追加</button></div>';
+
+        detailHtml =
+          '<div class="selected-detail">' +
+          detailContent +
+          '<button class="add-button" onclick="addProductToCart(event, ' + product.id + ')">カゴに追加</button>' +
+          '</div>';
       }
 
-      card.innerHTML = '<div class="card-main">' +
-        '<div class="emoji">' + getEmoji(product) + '</div>' +
-        '<h3>' + product.name + '</h3>' +
-        '<div class="category-label">' + product.category + '</div>' +
-        '<div class="price">' + product.price + '円</div>' +
-        '</div>' + detailHtml;
+      card.innerHTML =
+        '<div class="card-main">' +
+          '<div class="emoji">' + getEmoji(product) + '</div>' +
+          '<h3>' + product.name + '</h3>' +
+          '<div class="category-label">' + product.category + '</div>' +
+          '<div class="price">' + product.price + '円</div>' +
+        '</div>' +
+        detailHtml;
+
       return card;
     }
 
     function selectProduct(productId) {
-      if (selectedProduct && selectedProduct.id === productId) selectedProduct = null;
-      else selectedProduct = products.find(function (item) { return item.id === productId; });
+      if (selectedProduct && selectedProduct.id === productId) {
+        selectedProduct = null;
+      } else {
+        selectedProduct = products.find(function (item) {
+          return item.id === productId;
+        });
+      }
+
       refreshCurrentProductDisplay();
     }
 
     function addProductToCart(event, productId) {
       event.stopPropagation();
-      const product = products.find(function (item) { return item.id === productId; });
-      if (!budgetSet) { alert("先に今日の予算を決定してください。"); return; }
-      if (getTotal() + product.price > budget) { alert("残り予算が足りないため、この商品はカゴに追加できません。"); return; }
+
+      const product = products.find(function (item) {
+        return item.id === productId;
+      });
+
+      if (!budgetSet) {
+        alert("先に今日の予算を決定してください。");
+        return;
+      }
+
+      if (getTotal() + product.price > budget) {
+        alert("残り予算が足りないため、この商品はカゴに追加できません。");
+        return;
+      }
+
       cart.push(product);
       selectedProduct = null;
       updateBudgetStatus();
@@ -4492,9 +4690,17 @@ body {
     }
 
     function refreshCurrentProductDisplay() {
-      if (currentMode === "recommend") showRecommendations(currentRecommendCount);
-      if (currentMode === "category") showCategory(currentCategory);
-      if (currentMode === "popular") displayPopularProducts();
+      if (currentMode === "recommend") {
+        showRecommendations(currentRecommendCount);
+      }
+
+      if (currentMode === "category") {
+        showCategory(currentCategory || "");
+      }
+
+      if (currentMode === "popular") {
+        displayPopularProducts();
+      }
     }
 
     function showToast(message) {
@@ -4652,125 +4858,6 @@ function showSurveyPage() {
       displayCartItems();
       refreshCurrentProductDisplay();
     }
-  
-/* ===== スマホ落ち対策：カテゴリ画面で全商品を一気に表示しない ===== */
-function createCategoryButtons() {
-  const area = document.getElementById("categoryButtons");
-  if (!area || !Array.isArray(products)) return;
-
-  area.innerHTML = "";
-
-  const guideButton = document.createElement("button");
-  guideButton.type = "button";
-  guideButton.textContent = "カテゴリを選ぶ";
-  guideButton.className = "active";
-  guideButton.onclick = function () {
-    showCategory("");
-  };
-  area.appendChild(guideButton);
-
-  const categories = Array.from(new Set(products.map(function (product) {
-    return product.category;
-  }).filter(Boolean)));
-
-  categories.forEach(function (category) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = category;
-    button.onclick = function () {
-      showCategory(category);
-    };
-    area.appendChild(button);
-  });
-}
-
-function showCategory(categoryName) {
-  currentCategory = categoryName || "";
-
-  const area = document.getElementById("categoryProducts");
-  if (!area || !Array.isArray(products)) return;
-
-  area.innerHTML = "";
-
-  if (!currentCategory) {
-    area.innerHTML = "<p class='step-note category-guide-message'>上のボタンからカテゴリを選んでください。スマホで見やすいように、選んだカテゴリの商品だけを表示します。</p>";
-    document.querySelectorAll("#categoryButtons button").forEach(function (button) {
-      button.classList.toggle("active", button.textContent === "カテゴリを選ぶ");
-    });
-    return;
-  }
-
-  const categoryItems = products.filter(function (product) {
-    return product.category === currentCategory;
-  });
-
-  const sortedItems = typeof sortProductsByAffordable === "function"
-    ? sortProductsByAffordable(categoryItems)
-    : categoryItems;
-
-  if (sortedItems.length === 0) {
-    area.innerHTML = "<p class='step-note'>このカテゴリの商品はありません。</p>";
-    return;
-  }
-
-  sortedItems.forEach(function (product) {
-    area.appendChild(createProductCard(product, false));
-  });
-
-  document.querySelectorAll("#categoryButtons button").forEach(function (button) {
-    button.classList.toggle("active", button.textContent === currentCategory);
-  });
-}
-
-function showMode(modeName) {
-  currentMode = modeName;
-  selectedProduct = null;
-
-  const modes = ["recommend", "category", "popular"];
-  modes.forEach(function (mode) {
-    const area = document.getElementById(mode + "Mode");
-    const button = document.getElementById(mode + "ModeButton");
-    if (area) area.classList.remove("active");
-    if (button) button.classList.remove("active");
-  });
-
-  const activeArea = document.getElementById(modeName + "Mode");
-  const activeButton = document.getElementById(modeName + "ModeButton");
-  if (activeArea) activeArea.classList.add("active");
-  if (activeButton) activeButton.classList.add("active");
-
-  if (modeName === "recommend") {
-    showRecommendations(currentRecommendCount);
-  }
-
-  if (modeName === "category") {
-    createCategoryButtons();
-
-    // ここが重要：
-    // スマホで落ちる原因になるため、カテゴリー画面を開いた瞬間に全商品を表示しない
-    showCategory("");
-  }
-
-  if (modeName === "popular") {
-    displayPopularProducts();
-  }
-}
-
-function refreshCurrentProductDisplay() {
-  if (currentMode === "recommend") {
-    showRecommendations(currentRecommendCount);
-  }
-
-  if (currentMode === "category") {
-    // カテゴリ未選択のときは再描画しても全商品を出さない
-    showCategory(currentCategory || "");
-  }
-
-  if (currentMode === "popular") {
-    displayPopularProducts();
-  }
-}
-
-</script>
+  </script>
 </body>
 </html>
