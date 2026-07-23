@@ -4488,7 +4488,7 @@ body {
 
       const note = document.createElement("p");
       note.className = "step-note new-product-note";
-      note.textContent = "価格が未確認の商品は0円表示にしています。実際の価格は店頭で確認してください。";
+      note.textContent = "新商品も通常の商品と同じように選択し、買い物かごに追加できます。";
       area.appendChild(note);
 
       newProducts.forEach(function (product) {
@@ -4656,7 +4656,7 @@ body {
       if (selectedProduct && selectedProduct.id === productId) {
         selectedProduct = null;
       } else {
-        selectedProduct = products.find(function (item) {
+        selectedProduct = products.concat(newProducts).find(function (item) {
           return item.id === productId;
         });
       }
@@ -4667,9 +4667,14 @@ body {
     function addProductToCart(event, productId) {
       event.stopPropagation();
 
-      const product = products.find(function (item) {
+      const product = products.concat(newProducts).find(function (item) {
         return item.id === productId;
       });
+
+      if (!product) {
+        alert("商品情報を取得できませんでした。");
+        return;
+      }
 
       if (!budgetSet) {
         alert("先に今日の予算を決定してください。");
