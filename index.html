@@ -187,6 +187,26 @@
       box-shadow: 0 8px 18px rgba(255, 212, 59, 0.28);
     }
     .add-button:hover { background: #f7ca1a; }
+    .quantity-badge {
+      display: inline-flex; align-items: center; justify-content: center; margin-top: 10px;
+      padding: 5px 10px; border-radius: 999px; background: var(--soft); color: var(--main);
+      font-size: 12px; font-weight: 800; border: 1px solid #d8e4f6;
+    }
+    .quantity-control {
+      display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px;
+    }
+    .qty-btn {
+      width: 34px; height: 34px; border: none; border-radius: 999px; background: var(--main);
+      color: white; font-size: 20px; font-weight: 900; cursor: pointer; box-shadow: 0 6px 12px rgba(13, 61, 136, 0.16);
+    }
+    .qty-btn:hover { background: #0a3170; }
+    .qty-value {
+      min-width: 34px; text-align: center; font-size: 16px; font-weight: 900; color: var(--main);
+    }
+    .cart-qty-pill {
+      display: inline-flex; align-items: center; justify-content: center; min-width: 24px; margin: 0 6px; padding: 2px 8px;
+      border-radius: 999px; background: var(--soft); color: var(--main); font-size: 13px; font-weight: 800;
+    }
     .cart-button {
       position: fixed; right: 22px; bottom: 22px; background: var(--main); color: white; border: none; border-radius: 50%;
       width: 72px; height: 72px; font-size: 30px; box-shadow: 0 12px 30px rgba(13, 61, 136, 0.28); cursor: pointer; z-index: 999; transition: 0.15s ease;
@@ -4339,6 +4359,19 @@ body {
     let categoryDisplayLimit = 24;
     let currentRecommendCount = 1;
 
+    function getCartQuantity(productId) {
+      const item = cart.find(function (cartItem) {
+        return cartItem.id === productId;
+      });
+      return item ? item.quantity : 0;
+    }
+
+    function getCartItemCount() {
+      return cart.reduce(function (sum, item) {
+        return sum + (item.quantity || 1);
+      }, 0);
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
       updateBudgetStatus();
       updateCartCount();
@@ -4389,7 +4422,11 @@ body {
       showToast("今日の予算を" + budget + "円に設定しました！");
     }
 
-    function getTotal() { return cart.reduce(function (sum, item) { return sum + item.price; }, 0); }
+    function getTotal() {
+      return cart.reduce(function (sum, item) {
+        return sum + (item.price || 0) * (item.quantity || 1);
+      }, 0);
+    }
     function getRemainingBudget() { return budget - getTotal(); }
     function isAffordable(product) { if (!budgetSet) return true; return product.price <= getRemainingBudget(); }
 
@@ -4612,6 +4649,9 @@ body {
         selectProduct(product.id);
       };
 
+      const quantity = getCartQuantity(product.id);
+      const quantityBadge = quantity > 0 ? '<div class="quantity-badge">選択済み ' + quantity + '個</div>' : "";
+
       let detailHtml = "";
 
       if (selectedProduct && selectedProduct.id === product.id) {
@@ -4633,11 +4673,15 @@ body {
             '<div class="detail-row"><span>追加後の残金</span><strong>' + budgetText + '</strong></div>';
         }
 
-        detailHtml =
-          '<div class="selected-detail">' +
-          detailContent +
-          '<button class="add-button" onclick="addProductToCart(event, ' + product.id + ')">カゴに追加</button>' +
+        detailContent +=
+          '<div class="detail-row"><span>選択済み</span><strong>' + quantity + '個</strong></div>' +
+          '<div class="quantity-control">' +
+            '<button class="qty-btn qty-minus" onclick="changeCartQuantity(event, ' + product.id + ', -1)">−</button>' +
+            '<span class="qty-value">' + quantity + '</span>' +
+            '<button class="qty-btn qty-plus" onclick="changeCartQuantity(event, ' + product.id + ', 1)">＋</button>' +
           '</div>';
+
+        detailHtml = '<div class="selected-detail">' + detailContent + '</div>';
       }
 
       card.innerHTML =
@@ -4646,6 +4690,7 @@ body {
           '<h3>' + product.name + '</h3>' +
           '<div class="category-label">' + product.category + '</div>' +
           '<div class="price">' + product.price + '円</div>' +
+          quantityBadge +
         '</div>' +
         detailHtml;
 
@@ -4665,7 +4710,11 @@ body {
     }
 
     function addProductToCart(event, productId) {
-      event.stopPropagation();
+      changeCartQuantity(event, productId, 1);
+    }
+
+    function changeCartQuantity(event, productId, delta) {
+      if (event) event.stopPropagation();
 
       const product = products.concat(newProducts).find(function (item) {
         return item.id === productId;
@@ -4676,22 +4725,65 @@ body {
         return;
       }
 
-      if (!budgetSet) {
-        alert("先に今日の予算を決定してください。");
+      if (delta > 0) {
+        if (!budgetSet) {
+          alert("先に今日の予算を決定してください。");
+          return;
+        }
+
+        if (getTotal() + product.price > budget) {
+          alert("残り予算が足りないため、この商品はカゴに追加できません。");
+          return;
+        }
+
+        const existingItem = cart.find(function (cartItem) {
+          return cartItem.id === productId;
+        });
+
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            category: product.category,
+            quantity: 1
+          });
+        }
+
+        selectedProduct = product;
+        updateBudgetStatus();
+        updateCartCount();
+        refreshCurrentProductDisplay();
+        showToast(product.name + "を買い物かごに入れました！");
         return;
       }
 
-      if (getTotal() + product.price > budget) {
-        alert("残り予算が足りないため、この商品はカゴに追加できません。");
-        return;
-      }
+      if (delta < 0) {
+        const existingItem = cart.find(function (cartItem) {
+          return cartItem.id === productId;
+        });
 
-      cart.push(product);
-      selectedProduct = null;
-      updateBudgetStatus();
-      updateCartCount();
-      refreshCurrentProductDisplay();
-      showToast(product.name + "を買い物かごに入れました！");
+        if (!existingItem) return;
+
+        existingItem.quantity -= 1;
+        if (existingItem.quantity <= 0) {
+          cart = cart.filter(function (cartItem) {
+            return cartItem.id !== productId;
+          });
+        }
+
+        selectedProduct = product;
+        updateBudgetStatus();
+        updateCartCount();
+        refreshCurrentProductDisplay();
+        if (getCartQuantity(productId) === 0) {
+          showToast(product.name + "を買い物かごから外しました。" );
+        } else {
+          showToast(product.name + "を1個減らしました。" );
+        }
+      }
     }
 
     function refreshCurrentProductDisplay() {
@@ -4716,7 +4808,7 @@ body {
     }
 
     function updateCartCount() {
-      document.getElementById("cartCount").textContent = cart.length;
+      document.getElementById("cartCount").textContent = getCartItemCount();
 
       const cartSummaryText = document.getElementById("cartSummaryText");
       const cartTotalFixed = document.getElementById("cartTotalFixed");
@@ -4727,7 +4819,7 @@ body {
         } else if (budgetSet) {
           cartSummaryText.textContent = "残り予算：" + getRemainingBudget() + "円";
         } else {
-          cartSummaryText.textContent = "商品点数：" + cart.length + "点";
+          cartSummaryText.textContent = "商品点数：" + getCartItemCount() + "点";
         }
       }
 
@@ -4844,7 +4936,8 @@ function showSurveyPage() {
         cart.forEach(function (item, index) {
           const div = document.createElement("div");
           div.className = "cart-item";
-          div.innerHTML = '<span>' + getEmoji(item) + ' ' + item.name + '</span>' + '<span>' + item.price + '円' + '<button onclick="removeFromCart(' + index + ')">削除</button></span>';
+          const itemTotal = (item.price || 0) * (item.quantity || 1);
+          div.innerHTML = '<span>' + getEmoji(item) + ' ' + item.name + ' ×' + (item.quantity || 1) + '</span>' + '<span>' + itemTotal + '円' + '<button onclick="changeCartQuantity(event, ' + item.id + ', -1)">−</button><span class="cart-qty-pill">' + (item.quantity || 1) + '</span><button onclick="changeCartQuantity(event, ' + item.id + ', 1)">＋</button><button onclick="removeFromCart(' + index + ')">削除</button></span>';
           area.appendChild(div);
         });
       }
